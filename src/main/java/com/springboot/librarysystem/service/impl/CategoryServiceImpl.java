@@ -23,7 +23,7 @@ public class CategoryServiceImpl implements ICategoryService {
 		Category parent = null;
 		if (dto.getParentId() != null) {
 			parent = categoryRepository.findById(dto.getParentId())
-					.orElseThrow(() -> new ResourceNotFoundException("Parent category not found"));
+					.orElseThrow(() -> new ResourceNotFoundException("parent.category.not.found"));
 		}
 
 		Category category = CategoryMapper.INSTANCE.toEntity(dto);
@@ -41,7 +41,7 @@ public class CategoryServiceImpl implements ICategoryService {
 	@Override
 	public CategoryDto getCategoryById(Long id) {
 		Category category = categoryRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("category.not.found"));
 		return CategoryMapper.INSTANCE.toDto(category);
 	}
 
@@ -49,13 +49,13 @@ public class CategoryServiceImpl implements ICategoryService {
 	public CategoryDto updateCategory( CategoryDto dto) {
 
 		Category existing = categoryRepository.findById(dto.getId())
-				.orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("category.not.found"));
 
 		existing.setName(dto.getName());
 
 		if (dto.getParentId() != null) {
 			Category parent = categoryRepository.findById(dto.getParentId())
-					.orElseThrow(() -> new ResourceNotFoundException("Parent category not found"));
+					.orElseThrow(() -> new ResourceNotFoundException("parent.category.not.found"));
 			existing.setParent(parent);
 		} else {
 			existing.setParent(null);
@@ -67,7 +67,7 @@ public class CategoryServiceImpl implements ICategoryService {
 	@Override
 	public void deleteCategory(Long id) {
 		Category category = categoryRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("category.not.found"));
 		categoryRepository.delete(category);
 	}
 }

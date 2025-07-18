@@ -12,36 +12,36 @@ import java.util.List;
 public class BookDto {
 	private Long id;
 
-	@NotBlank(message = "Title is required")
-	@Size(min = 2, max = 20, message = "Title must be between 2 and 20 characters")
+	@NotBlank(message = "title.is.required")
+	@Size(min = 2, max = 20, message = "title.short.or.long")
 	private String title;
 
-	@NotBlank(message = "ISBN is required")
-	@Size(min = 10, max = 20, message = "ISBN must be between 10 and 20 characters")
+	@NotBlank(message = "isbn.is.required")
+	@Size(min = 10, max = 13, message = "isbn.short.or.long")
 	private String isbn;
 
-	@NotBlank(message = "Edition is required")
+	@NotBlank(message = "edition.is.required")
 	private String edition;
 
-	@Min(value = 1500, message = "Publication year must be after 1500")
-	@Max(value = 2025, message = "Publication year is invalid")
+	@Min(value = 1500, message = "publication.year.min")
+	@Max(value = 2025, message = "publication.year.max")
 	private int publicationYear;
 
-	@Size(max = 300, message = "Summary must not exceed 300 characters")
+	@Size(max = 300, message = "summary.max")
 	private String summary;
 
-	@Size(max = 100, message = "Cover Image URL must not exceed 100 characters")
+	@Size(max = 100, message = "cover.image.url.max")
 	private String coverImageUrl;
 
-	@NotNull(message = "Language is required")
+	@NotNull(message = "language.is.required")
 	private Long languageId;
 
-	@NotNull(message = "Publisher is required")
+	@NotNull(message = "publisher.is.required")
 	private Long publisherId;
 
-	@NotEmpty(message = "At least one author is required")
+	@NotEmpty(message = "authors.is.required")
 	private List<Long> authorIds;
 
-	@NotEmpty(message = "At least one category is required")
+	@NotEmpty(message = "categories.is.required")
 	private List<Long> categoryIds;
 }

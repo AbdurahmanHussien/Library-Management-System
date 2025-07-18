@@ -4,6 +4,7 @@ package com.springboot.librarysystem.service.impl;
 import com.springboot.librarysystem.dto.auth.UserDto;
 import com.springboot.librarysystem.entity.auth.Role;
 import com.springboot.librarysystem.entity.auth.User;
+import com.springboot.librarysystem.exception.BadRequestException;
 import com.springboot.librarysystem.exception.ResourceNotFoundException;
 import com.springboot.librarysystem.mapper.UserMapper;
 import com.springboot.librarysystem.repository.RoleRepository;
@@ -32,7 +33,7 @@ public class UserServiceImpl implements IUserService {
 	public Optional<UserDto> getUserById(Long id) {
 		Optional<User> user = userRepository.findById(id);
 		if (user.isEmpty()) {
-			throw new ResourceNotFoundException("User not found");
+			throw new ResourceNotFoundException("user.not.found");
 		}
 		return user.map(UserMapper.INSTANCE::toDto);
 	}
@@ -40,53 +41,83 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public UserDto createUser(UserDto userDto, List<Long> roleIds) {
 		if (Objects.nonNull(userDto.getId())) {
-			throw new RuntimeException("Id must be null");
+			throw new BadRequestException("id.must.be.null");
 		}
-		return saveUser(userDto, roleIds);
+		if (userRepository.existsByEmail(userDto.getEmail())) {
+			throw new BadRequestException("user.exists");
+		}
+		if (userRepository.existsByUsername(userDto.getUsername())) {
+			throw new BadRequestException("choose.another.username");
+		}
+		return saveUser(userDto, roleIds , null);
 	}
 
 	@Override
 	public List<UserDto> getAllUsers() {
-		return userRepository.findAll()
+
+		List<UserDto> users =userRepository.findAll()
 				.stream()
 				.map(UserMapper.INSTANCE::toDto)
-				.collect(Collectors.toList());
+				.toList();
+		if (users.isEmpty()) {
+			throw new ResourceNotFoundException("no.users.found");
+		}
+		return users;
+
 	}
 
 	@Override
 	public UserDto updateUser(UserDto userDto, List<Long> roleIds) {
 		if (Objects.isNull(userDto.getId())) {
-			throw new RuntimeException("Id cannot be null");
+			throw new BadRequestException("id.required");
 		}
-		getUserById(userDto.getId());
+		if (userRepository.existsByEmail(userDto.getEmail())) {
+			throw new BadRequestException("user.exists");
+		}
+		if (userRepository.existsByUsername(userDto.getUsername())) {
+			throw new BadRequestException("choose.another.username");
+		}
+		User existingUser = UserMapper.INSTANCE.toEntity(userDto);
 
-		return saveUser(userDto, roleIds);
+		return saveUser(userDto, roleIds, existingUser);
 	}
 
 	@Override
 	public void deleteUser(Long id) {
 		User user = userRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("User not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("user.not.found"));
 		userRepository.delete(user);
 	}
 
-	private UserDto saveUser(UserDto userDto, List<Long> roleIds) {
+	private UserDto saveUser(UserDto userDto, List<Long> roleIds, User existingUser) {
 		List<Role> roles = roleRepository.findAllById(roleIds);
 
 		if (roles.size() != roleIds.size()) {
-			throw new ResourceNotFoundException("Some roles not found");
+			throw new ResourceNotFoundException("role.not.found");
 		}
 
-		User user = User.builder()
-				.username(userDto.getUsername())
-				.email(userDto.getEmail())
-				.password(passwordEncoder.encode(userDto.getPassword()))
-				.roles(new HashSet<>(roles))
-				.isActive(true)
-				.createdAt(LocalDateTime.now())
-				.build();
+		User user;
+		if (existingUser != null) {
+			existingUser.setUsername(userDto.getUsername());
+			existingUser.setEmail(userDto.getEmail());
+			existingUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
+			existingUser.setRoles(new HashSet<>(roles));
+			existingUser.setCreatedAt(LocalDateTime.now());
+			existingUser.setActive(true);
+			user = existingUser;
+		} else {
+			user = User.builder()
+					.username(userDto.getUsername())
+					.email(userDto.getEmail())
+					.password(passwordEncoder.encode(userDto.getPassword()))
+					.roles(new HashSet<>(roles))
+					.isActive(true)
+					.createdAt(LocalDateTime.now())
+					.build();
+		}
 
 		User savedUser = userRepository.save(user);
 		return UserMapper.INSTANCE.toDto(savedUser);
 	}
+
 }

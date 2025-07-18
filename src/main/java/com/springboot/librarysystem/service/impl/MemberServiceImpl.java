@@ -9,6 +9,8 @@ import com.springboot.librarysystem.repository.MemberRepository;
 import com.springboot.librarysystem.service.IMemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,37 +23,41 @@ public class MemberServiceImpl implements IMemberService {
 	@Override
 	public MemberDto createMember(MemberDto dto) {
 		if (Objects.nonNull(dto.getId())) {
-			throw new BadRequestException("Id must be null");
+			throw new BadRequestException("id.must.be.null");
 		}
 
 		Member member = MemberMapper.INSTANCE.toEntity(dto);
+		member.setCreatedAt(LocalDateTime.now());
 		return MemberMapper.INSTANCE.toDto(memberRepository.save(member));
 	}
 
 	@Override
 	public List<MemberDto> getAllMembers() {
 		List<Member> members = memberRepository.findAll();
+		if (members.isEmpty()) {
+			throw new ResourceNotFoundException("no.members.found");
+		}
 		return MemberMapper.INSTANCE.toDtoList(members);
 	}
 
 	@Override
 	public MemberDto getMemberById(Long id) {
 		Member member = memberRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Member not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("member.not.found"));
 		return MemberMapper.INSTANCE.toDto(member);
 	}
 
 	@Override
 	public void deleteMemberById(Long id) {
 		Member member = memberRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Member not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("member.not.found"));
 		memberRepository.delete(member);
 	}
 
 	@Override
 	public MemberDto updateMember(MemberDto dto) {
 		if (Objects.isNull(dto.getId())) {
-			throw new BadRequestException("Id cannot be null");
+			throw new BadRequestException("id.required");
 		}
 
 		getMemberById(dto.getId());

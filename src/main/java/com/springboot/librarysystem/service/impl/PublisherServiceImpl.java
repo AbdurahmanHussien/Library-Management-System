@@ -22,7 +22,7 @@ public class PublisherServiceImpl implements IPublisherService {
 	@Override
 	public PublisherDto addPublisher(PublisherDto dto) {
 		if (Objects.nonNull(dto.getId())) {
-			throw new BadRequestException("Id must be null");
+			throw new BadRequestException("id.must.be.null");
 		}
 		Publisher publisher = toEntity(dto);
 		return toDto(publisherRepository.save(publisher));
@@ -30,23 +30,28 @@ public class PublisherServiceImpl implements IPublisherService {
 
 	@Override
 	public List<PublisherDto> getAllPublishers() {
-		return publisherRepository.findAll()
+		List<PublisherDto> publishers = publisherRepository.findAll()
 				.stream()
 				.map(this::toDto)
-				.collect(Collectors.toList());
+				.toList();
+
+		if (publishers.isEmpty()) {
+			throw new ResourceNotFoundException("no.publishers.found");
+		}
+		return publishers;
 	}
 
 	@Override
 	public PublisherDto getPublisherById(Long id) {
 		Publisher publisher = publisherRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Publisher not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("publisher.not.found"));
 		return toDto(publisher);
 	}
 
 	@Override
 	public PublisherDto updatePublisher(PublisherDto dto) {
 		if (Objects.isNull(dto.getId())) {
-			throw new BadRequestException("Id cannot be null");
+			throw new BadRequestException("id.required");
 		}
 
 		getPublisherById(dto.getId());
@@ -58,7 +63,7 @@ public class PublisherServiceImpl implements IPublisherService {
 	@Override
 	public void deletePublisher(Long id) {
 		Publisher publisher = publisherRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Publisher not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("publisher.not.found"));
 		publisherRepository.delete(publisher);
 	}
 

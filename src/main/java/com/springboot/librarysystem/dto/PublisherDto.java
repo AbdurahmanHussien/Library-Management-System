@@ -14,15 +14,14 @@ public class PublisherDto {
 
 	private Long id;
 
-	@NotBlank(message = "Name is required")
-	@Size(min = 2, max = 100, message = "Name must be between 2 and 100 characters")
+	@NotBlank(message = "name.is.required")
+	@Size(min = 3, max = 20, message = "name.short.or.long")
 	private String name;
 
-	@NotBlank(message = "Address is required")
-	@Size(min = 5, max = 200, message = "Address must be between 5 and 200 characters")
+	@NotBlank(message = "address.is.required")
 	private String address;
 
-	@NotBlank(message = "Contact email is required")
-	@Email(message = "Invalid email format")
+	@NotBlank(message = "contact.is.required")
+	@Email(message = "invalid.email.format")
 	private String contactEmail;
 }

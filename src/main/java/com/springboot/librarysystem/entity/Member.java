@@ -2,13 +2,16 @@ package com.springboot.librarysystem.entity;
 
 import jakarta.persistence.Entity;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+
 import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
-@Getter
+@Getter @SuperBuilder
+
 public class Member extends BaseEntity {
 
 	private String email;

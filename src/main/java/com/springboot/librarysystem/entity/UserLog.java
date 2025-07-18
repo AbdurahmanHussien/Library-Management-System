@@ -17,7 +17,8 @@ public class UserLog  {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String username;
-	private String method;
-	private String endpoint;
+	private String ipAddress;
+	private String actionType;
+	private String details;
 	private LocalDateTime time;
 }

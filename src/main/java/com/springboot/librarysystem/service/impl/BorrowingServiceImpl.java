@@ -29,10 +29,10 @@ public class BorrowingServiceImpl implements IBorrowingService {
 	@Override
 	public BorrowingResponseDto borrowBook(BorrowingRequestDto dto) {
 		Member member = memberRepository.findById(dto.getMemberId())
-				.orElseThrow(() -> new ResourceNotFoundException("Member not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("member.not.found"));
 
 		Book book = bookRepository.findById(dto.getBookId())
-				.orElseThrow(() -> new ResourceNotFoundException("Book not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("book.not.found"));
 
 		Borrowing borrowing = Borrowing.builder()
 				.member(member)
@@ -50,7 +50,7 @@ public class BorrowingServiceImpl implements IBorrowingService {
 	@Override
 	public BorrowingResponseDto returnBook(Long borrowingId) {
 		Borrowing borrowing = borrowingRepository.findById(borrowingId)
-				.orElseThrow(() -> new ResourceNotFoundException("Borrowing not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("borrowing.not.found"));
 
 		borrowing.setReturnDate(LocalDate.now());
 		borrowing.setStatus(BorrowStatus.RETURNED);
@@ -69,7 +69,7 @@ public class BorrowingServiceImpl implements IBorrowingService {
 	@Override
 	public BorrowingResponseDto getBorrowingById(Long id) {
 		Borrowing borrowing = borrowingRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Borrowing not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("borrowing.not.found"));
 
 		return mapToResponse(borrowing);
 	}
@@ -77,7 +77,7 @@ public class BorrowingServiceImpl implements IBorrowingService {
 	@Override
 	public void deleteBorrowing(Long id) {
 		Borrowing borrowing = borrowingRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Borrowing not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("borrowing.not.found"));
 
 		borrowingRepository.delete(borrowing);
 	}

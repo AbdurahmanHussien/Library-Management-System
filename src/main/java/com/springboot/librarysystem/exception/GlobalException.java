@@ -6,6 +6,7 @@ import com.springboot.librarysystem.dto.response.ErrorResponse;
 import com.springboot.librarysystem.service.BundleTranslatorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -89,5 +90,12 @@ public class GlobalException {
                 messages);
 
         return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidEnum(HttpMessageNotReadableException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "Invalid language. Allowed values: AR, EN, FR, ES, DE");
+        return ResponseEntity.badRequest().body(error);
     }
 }

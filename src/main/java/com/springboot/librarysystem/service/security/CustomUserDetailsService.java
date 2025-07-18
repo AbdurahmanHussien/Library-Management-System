@@ -23,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 		User user = userRepo.findByUsername(username);
 		if (user == null) {
-			throw new ResourceNotFoundException("User not found");
+			throw new ResourceNotFoundException("user.not.found");
 		}
 
 		return new CustomUserDetails(user);

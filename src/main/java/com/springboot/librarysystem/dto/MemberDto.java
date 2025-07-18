@@ -14,20 +14,19 @@ import lombok.*;
 public class MemberDto {
 	private Long id;
 
-	@NotBlank(message = "Name is required")
-	@Size(min = 3, max = 20, message = "Name must be between 3 and 20 characters")
+	@NotBlank(message = "name.is.required")
+	@Size(min = 3, max = 20, message = "name.short.or.long")
 	private String name;
 
-	@NotBlank(message = "Email is required")
-	@Email(message = "Invalid email format")
+	@NotBlank(message = "email.is.required")
+	@Email(message = "invalid.email.format")
 	private String email;
 
-	@NotBlank(message = "Phone number is required")
-	@Pattern(regexp = "^01[0125]\\d{8}$", message = "Phone number must be a valid Egyptian number")
+	@NotBlank(message = "phone.is.required")
+	@Pattern(regexp = "^01[0125]\\d{8}$", message = "invalid.phone.format")
 	private String phone;
 
-	@NotBlank(message = "Address is required")
-	@Size(min = 5, max = 200, message = "Address must be between 5 and 200 characters")
+	@NotBlank(message = "address.is.required")
 	private String address;
 }
 

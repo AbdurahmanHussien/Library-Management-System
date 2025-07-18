@@ -4,6 +4,7 @@ import com.springboot.librarysystem.service.security.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -22,13 +23,28 @@ public class SecurityConfig {
 
 	private final CustomUserDetailsService userDetailsService;
 
+	private static final String[] AUTH_WHITELIST = {
+
+			"/v3/api-docs/**",
+			"/swagger-ui/**",
+			"/swagger-resources/**",
+			"/v2/api-docs",
+			"/webjars/**"
+	};
+
 
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	public SecurityFilterChain defaultsecurityFilterChain(HttpSecurity http) throws Exception {
 		http
 				.csrf(AbstractHttpConfigurer::disable)
-				.authorizeHttpRequests(https -> https
-						.anyRequest().permitAll())
+				.authorizeHttpRequests(https ->
+						https
+								.requestMatchers(HttpMethod.GET, "/book/**", "/member/**", "/borrowing/**", "/author/**", "/category/**", "/language/**", "/publisher/**")
+								.hasAnyRole("ADMINISTRATOR", "LIBRARIAN", "STAFF")
+								.requestMatchers(AUTH_WHITELIST).permitAll()
+								.requestMatchers("/users/**", "/author/**", "/category/**", "/language/**", "/publisher/**").hasRole("ADMINISTRATOR")
+								.requestMatchers("/book/**", "/member/**", "/borrowing/**").hasAnyRole("ADMINISTRATOR", "LIBRARIAN")
+				)
 				.httpBasic(Customizer.withDefaults())
 				.authenticationProvider(authenticationProvider());
 

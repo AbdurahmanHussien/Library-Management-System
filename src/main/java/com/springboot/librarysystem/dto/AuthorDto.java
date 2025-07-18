@@ -14,11 +14,11 @@ public class AuthorDto {
 
     private Long id;
 
-	@NotBlank(message = "Name is required")
-	@Size(min = 3, max = 10, message = "Name must be between 3 and 10 characters")
+	@NotBlank(message = "name.is.required")
+	@Size(min = 3, max = 20, message = "name.short.or.long")
 	private String name;
 
-	@Size(max = 200, message = "Bio must not exceed 200 characters")
+	@Size(max = 200, message = "bio.must.not.exceed.200.characters")
 	private String bio;
 
 }

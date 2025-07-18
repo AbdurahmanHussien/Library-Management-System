@@ -1,7 +1,9 @@
 package com.springboot.librarysystem.dto;
 
+import com.springboot.librarysystem.constants.Languages;
+
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @AllArgsConstructor
@@ -12,7 +14,7 @@ import lombok.*;
 public class LanguageDto {
 
     private Long id;
-	@NotBlank(message = "Name is required")
-	@Size(min = 3, max = 10, message = "Name must be between 2 and 10 characters")
-	private	String name;
+
+	@NotNull(message = "name.is.required")
+	private Languages name;
 }

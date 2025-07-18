@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +20,7 @@ public class AuthorServiceImpl implements IAuthorService {
 	@Override
 	public AuthorDto addAuthor(AuthorDto dto) {
 		if(Objects.nonNull(dto.getId())) {
-			throw new RuntimeException("Id must be null");
+			throw new RuntimeException("id.must.be.null");
 		}
 
 		Author author = AuthorMapper.INSTANCE.toEntity(dto);
@@ -31,23 +30,27 @@ public class AuthorServiceImpl implements IAuthorService {
 
 	@Override
 	public List<AuthorDto> getAllAuthors() {
-		return authorRepository.findAll()
+		List<AuthorDto> authors = authorRepository.findAll()
 				.stream()
 				.map(AuthorMapper.INSTANCE::toDto)
-				.collect(Collectors.toList());
+				.toList();
+		if (authors.isEmpty()) {
+			throw new ResourceNotFoundException("no.authors.found");
+		}
+		return authors;
 	}
 
 	@Override
 	public AuthorDto getAuthorById(Long id) {
 		Author author = authorRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Author not found with"));
+				.orElseThrow(() -> new ResourceNotFoundException("author.not.found"));
 		return AuthorMapper.INSTANCE.toDto(author);
 	}
 
 	@Override
 	public AuthorDto updateAuthor(AuthorDto authorDto) {
 		Author existing = authorRepository.findById(authorDto.getId())
-				.orElseThrow(() -> new ResourceNotFoundException("Author not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("author.not.found"));
 
 		existing.setName(authorDto.getName());
 		existing.setBio(authorDto.getBio());
@@ -59,7 +62,7 @@ public class AuthorServiceImpl implements IAuthorService {
 	@Override
 	public void deleteAuthor(Long id) {
 		if (!authorRepository.existsById(id)) {
-			throw new ResourceNotFoundException("Author not found with id: " + id);
+			throw new ResourceNotFoundException("author.not.found");
 		}
 		authorRepository.deleteById(id);
 	}

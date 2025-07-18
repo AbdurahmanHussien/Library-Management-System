@@ -23,11 +23,11 @@ public class Book {
 	private String summary;
 	private String coverImageUrl;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "language_id")
 	private Language language;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "publisher_id")
 	private Publisher publisher;
 

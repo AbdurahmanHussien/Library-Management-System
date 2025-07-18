@@ -17,18 +17,10 @@ public class RoleInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if (!roleRepository.existsRoleByRole(RoleNames.ADMINISTRATOR)) {
-            roleRepository.save(new Role(RoleNames.ADMINISTRATOR));
-        }
-
-        if (!roleRepository.existsRoleByRole(RoleNames.LIBRARIAN)) {
-            roleRepository.save(new Role(RoleNames.LIBRARIAN));
-        }
-        if (!roleRepository.existsRoleByRole(RoleNames.BORROWERS)) {
-            roleRepository.save(new Role(RoleNames.BORROWERS));
-        }
-        if (!roleRepository.existsRoleByRole(RoleNames.STAFF)) {
-            roleRepository.save(new Role(RoleNames.STAFF));
+        for (RoleNames roleNames : RoleNames.values()) {
+            if (!roleRepository.existsRoleByRole(roleNames)) {
+                roleRepository.save(new Role(roleNames));
+            }
         }
     }
 }

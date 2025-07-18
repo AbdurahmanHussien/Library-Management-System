@@ -25,7 +25,11 @@ public class LanguageServiceImpl implements ILanguageService {
 	@Override
 	public LanguageDto addLanguage(LanguageDto dto) {
 		if(Objects.nonNull(dto.getId())) {
-			throw new BadRequestException("Id must be null");
+			throw new BadRequestException("id.must.be.null");
+		}
+
+		if(languageRepository.existsLanguageByName(dto.getName())) {
+			throw new BadRequestException("language.exists");
 		}
 		Language language = LanguageMapper.INSTANCE.toEntity(dto);
 		Language saved = languageRepository.save(language);
@@ -43,17 +47,17 @@ public class LanguageServiceImpl implements ILanguageService {
 	@Override
 	public LanguageDto getLanguageById(Long id) {
 		Language language = languageRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Language not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("language.not.found"));
 		return LanguageMapper.INSTANCE.toDto(language);
 	}
 
 	@Override
 	public LanguageDto updateLanguage(LanguageDto dto) {
 		if (Objects.isNull(dto.getId())) {
-			throw new BadRequestException("Id cannot be null");
+			throw new BadRequestException("id.required");
 		}
 		Language existing = languageRepository.findById(dto.getId())
-				.orElseThrow(() -> new ResourceNotFoundException("Language not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("language.not.found"));
 
 		existing.setName(dto.getName());
 
@@ -64,7 +68,7 @@ public class LanguageServiceImpl implements ILanguageService {
 	@Override
 	public void deleteLanguage(Long id) {
 		Language language = languageRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Language not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("language.not.found"));
 		languageRepository.delete(language);
 	}
 }

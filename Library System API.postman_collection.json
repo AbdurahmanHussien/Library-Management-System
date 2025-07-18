@@ -1,0 +1,1049 @@
+{
+	"info": {
+		"_postman_id": "6d5baaeb-731c-46b8-92a2-2e3109a4df75",
+		"name": "Library System API",
+		"description": "Library System API for Code81",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43180442"
+	},
+	"item": [
+		{
+			"name": "Books",
+			"item": [
+				{
+					"name": "get All Books",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "Abdo@1234",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "abdo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/book",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add book",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Romantic book\",\r\n  \"isbn\": \"02938585594\",\r\n  \"edition\": \"first edition\",\r\n  \"publicationYear\": 2000,\r\n  \"summary\": \"string\",\r\n  \"coverImageUrl\": \"cover.png\",\r\n  \"languageId\": 1,\r\n  \"publisherId\": 1,\r\n  \"authorIds\": [\r\n    1\r\n  ],\r\n  \"categoryIds\": [\r\n    1\r\n]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/book",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update book",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 50 ,\r\n  \"title\": \"Horror book\",\r\n  \"isbn\": \"02938585594\",\r\n  \"edition\": \"first edition\",\r\n  \"publicationYear\": 2000,\r\n  \"summary\": \"string\",\r\n  \"coverImageUrl\": \"cover.png\",\r\n  \"languageId\": 1,\r\n  \"publisherId\": 1,\r\n  \"authorIds\": [\r\n    1\r\n  ],\r\n  \"categoryIds\": [\r\n    0\r\n]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/book",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get book by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/book/25",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"book",
+								"25"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete book by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/book/21",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"book",
+								"21"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "get All users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/user",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \r\n  \"username\": \"abdo\",\r\n  \"email\": \"abdo3@yahoo.com\",\r\n  \"password\": \"Abdo@1234\",\r\n  \"active\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/user?roleIds=1,2",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"user"
+							],
+							"query": [
+								{
+									"key": "roleIds",
+									"value": "1,2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update user",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\" :22,\r\n  \"username\": \"abdo\",\r\n  \"email\": \"abdo234@yahoo.com\",\r\n  \"password\": \"Abdo@1234\",\r\n  \"active\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/user?roleIds=1,2",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"user"
+							],
+							"query": [
+								{
+									"key": "roleIds",
+									"value": "1,2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/user/9",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"user",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/user/43",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"user",
+								"43"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Author",
+			"item": [
+				{
+					"name": "get All Authors",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "Abdo@1234",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "abdo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/author",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"author"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add autor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \r\n  \"name\": \"Ahmed Mohamed\",\r\n  \"bio\": \"Horror novel Author\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/author",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"author"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update author",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"Ahmed Ahmed\",\r\n    \"bio\": \"Horror novel Author\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/author",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"author"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get author by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/author/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"author",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete author by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/author/21",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"author",
+								"21"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Publisher",
+			"item": [
+				{
+					"name": "get All Publisher",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "Abdo@1234",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "abdo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/publisher",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"publisher"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add Publisher",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Mona\",\r\n  \"address\": \"Cairo\",\r\n  \"contactEmail\": \"mona@yahoo.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/publisher",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"publisher"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update publisher",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"Mona\",\r\n    \"address\": \"nasr city\",\r\n    \"contactEmail\": \"mona@yahoo.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/publisher",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"publisher"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get publisher by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/publisher/4",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"publisher",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete publisher by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/publisher/21",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"publisher",
+								"21"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Borrowing",
+			"item": [
+				{
+					"name": "return  borrowing",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/borrowing/return/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"borrowing",
+								"return",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get borrowing by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/borrowing/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"borrowing",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete borrowing by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/borrowing/21",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"borrowing",
+								"21"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get All borrowings",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "Abdo@1234",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "abdo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/borrowing",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"borrowing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "borrow book",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"memberId\": 21,\r\n  \"bookId\": 30,\r\n  \"borrowDate\": \"2025-07-18\",\r\n  \"dueDate\": \"2025-07-20\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/borrowing",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"borrowing"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Member",
+			"item": [
+				{
+					"name": "add member",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"abdo\",\r\n  \"email\": \"abdo@yahoo.com\",\r\n  \"phone\": \"01023186459\",\r\n  \"address\": \"egypt\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/member",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"member"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update member",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"abdo Hussien\",\r\n    \"email\": \"abdo@yahoo.com\",\r\n    \"phone\": \"01023186459\",\r\n    \"address\": \"egypt\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/member",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"member"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get member by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/member/5",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"member",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete member by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/member/21",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"member",
+								"21"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get All member",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "Abdo@1234",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "abdo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/member",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"member"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ActivityLog",
+			"item": []
+		},
+		{
+			"name": "Language",
+			"item": [
+				{
+					"name": "add language",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"EE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/language",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"language"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update language",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\" : 8,\r\n  \"name\": \"AR\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/language",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"language"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get language by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/language/5",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"language",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete language by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/language/21",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"language",
+								"21"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get All languages",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "Abdo@1234",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "abdo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/language",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"language"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "add category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"subCat\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/category",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update category",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 0,\r\n  \"name\": \"string\",\r\n  \"parentId\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/category",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get category  by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/category/21",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"category",
+								"21"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete category by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/category/21",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"category",
+								"21"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get All categories",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "Abdo@1234",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "abdo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/category",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "Abdo@1234",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "abdo",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://localhost:9090",
+			"type": "default"
+		}
+	]
+}

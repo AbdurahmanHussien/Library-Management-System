@@ -3,10 +3,13 @@ package com.springboot.librarysystem.service.impl;
 import com.springboot.librarysystem.dto.BookDto;
 import com.springboot.librarysystem.entity.Author;
 import com.springboot.librarysystem.entity.Book;
+import com.springboot.librarysystem.entity.Category;
+import com.springboot.librarysystem.entity.Language;
 import com.springboot.librarysystem.exception.BadRequestException;
 import com.springboot.librarysystem.exception.ResourceNotFoundException;
 import com.springboot.librarysystem.repository.*;
 import com.springboot.librarysystem.service.IBookService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -24,23 +27,28 @@ public class BookServiceImpl implements IBookService {
 
 	@Override
 	public List<BookDto> getAllBooks() {
-		return bookRepository.findAll()
+		List<BookDto> books = bookRepository.findAll()
 				.stream()
 				.map(this::convertToDto)
 				.toList();
+		if (books.isEmpty()) {
+			throw new ResourceNotFoundException("no.books.found");
+		}
+		return books;
 	}
 
 	@Override
 	public BookDto getBookById(Long id) {
 		Book book = bookRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Book not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("book.not.found"));
 		return convertToDto(book);
 	}
 
 	@Override
+	@Transactional
 	public BookDto addBook(BookDto bookDto) {
 		if (bookDto.getId() != null) {
-			throw new BadRequestException("New book cannot have id");
+			throw new BadRequestException("id.must.be.null");
 		}
 		Book book = convertToEntity(bookDto);
 		Book savedBook = bookRepository.save(book);
@@ -48,9 +56,10 @@ public class BookServiceImpl implements IBookService {
 	}
 
 	@Override
+	@Transactional
 	public BookDto updateBook(BookDto bookDto) {
 		if (bookDto.getId() == null) {
-			throw new BadRequestException("Book id cannot be null");
+			throw new BadRequestException("id.required");
 		}
 
 		getBookById(bookDto.getId());
@@ -63,38 +72,54 @@ public class BookServiceImpl implements IBookService {
 	@Override
 	public void deleteBookById(Long id) {
 		Book book = bookRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Book not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("book.not.found"));
 		bookRepository.delete(book);
 	}
 
-
 	private BookDto convertToDto(Book book) {
-		BookDto bookDto = new BookDto();
-		bookDto.setId(book.getId());
-		bookDto.setTitle(book.getTitle());
-		bookDto.setIsbn(book.getIsbn());
-		bookDto.setEdition(book.getEdition());
-		bookDto.setPublicationYear(book.getPublicationYear());
-		bookDto.setSummary(book.getSummary());
-		bookDto.setCoverImageUrl(book.getCoverImageUrl());
-		bookDto.setLanguageId(book.getLanguage().getId());
-		bookDto.setPublisherId(book.getPublisher().getId());
-		bookDto.setAuthorIds(book.getAuthors().stream().map(Author::getId).toList());
-		return bookDto;
+		if (book.getLanguage() == null) {
+			throw new ResourceNotFoundException("language.not.found");
+		}
+		List<Author> authors = book.getAuthors();
+		if (authors.isEmpty()) {
+			throw new ResourceNotFoundException("author.not.found");
+		}
+		List<Category> categories = book.getCategories();
+		if (categories.isEmpty()) {
+			throw new ResourceNotFoundException("category.not.found");
+		}
+		
+		return BookDto.builder()
+			.id(book.getId())
+			.title(book.getTitle())
+			.isbn(book.getIsbn())
+			.edition(book.getEdition())
+			.publicationYear(book.getPublicationYear())
+			.summary(book.getSummary())
+			.coverImageUrl(book.getCoverImageUrl())
+			.languageId(book.getLanguage().getId())
+			.publisherId(book.getPublisher() != null ? book.getPublisher().getId() : null)
+			.authorIds(book.getAuthors().stream().map(Author::getId).toList())
+			.categoryIds(book.getCategories().stream().map(Category::getId).toList())
+			.build();
 	}
 
 	private Book convertToEntity(BookDto bookDto) {
-		Book book = new Book();
-		book.setId(bookDto.getId());
-		book.setTitle(bookDto.getTitle());
-		book.setIsbn(bookDto.getIsbn());
-		book.setEdition(bookDto.getEdition());
-		book.setPublicationYear(bookDto.getPublicationYear());
-		book.setSummary(bookDto.getSummary());
-		book.setCoverImageUrl(bookDto.getCoverImageUrl());
-		book.setLanguage(languageRepository.findById(bookDto.getLanguageId()).orElse(null));
-		book.setPublisher(publisherRepository.findById(bookDto.getPublisherId()).orElse(null));
-		book.setAuthors(authorRepository.findAllById(bookDto.getAuthorIds()));
-		return book;
+		return Book.builder()
+			.id(bookDto.getId())
+			.title(bookDto.getTitle())
+			.isbn(bookDto.getIsbn())
+			.edition(bookDto.getEdition())
+			.publicationYear(bookDto.getPublicationYear())
+			.summary(bookDto.getSummary())
+			.coverImageUrl(bookDto.getCoverImageUrl())
+			.language(languageRepository.findById(bookDto.getLanguageId())
+					.orElseThrow(() -> new ResourceNotFoundException("language.not.found")))
+			.publisher(publisherRepository.findById(bookDto.getPublisherId())
+					.orElseThrow(() -> new ResourceNotFoundException("publisher.not.found")))
+			.authors(authorRepository.findAllById(bookDto.getAuthorIds()))
+			.categories(categoryRepository.findAllById(bookDto.getCategoryIds()))
+			.build();
 	}
+
 }
