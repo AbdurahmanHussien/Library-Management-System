@@ -57,11 +57,11 @@ The application is built using a classic **Layered Architecture** to ensure sepa
 
 ## 🔑 Security
 
-* **Authorization (RBAC)**:
+* **Authorization **:
   * API endpoints are secured based on user roles. The system defines three primary roles:
-    * `ROLE_ADMIN`: Has full access to all APIs, including system user management.
-    * `ROLE_LIBRARIAN`: Can manage books, authors, categories, publishers, and borrowing transactions.
-    * `ROLE_STAFF`: Has limited access, primarily for viewing data and managing members.
+    * `ADMINISTRATOR`: Has full access to all APIs, including system user management.
+    * `LIBRARIAN`: Can manage books, authors, categories, publishers, and borrowing transactions.
+    * `STAFF`: Has limited access, primarily for viewing data and managing members.
   * Endpoint security is configured declaratively in the `SecurityConfig` class.
 
 * **Password Storage**: User passwords are securely stored in the database after being hashed using the `BCryptPasswordEncoder`.
