@@ -9,7 +9,7 @@ The system is designed following modern software architecture principles to be s
 ## ✨ Features
 
 * **RESTful API**: Full CRUD (Create, Read, Update, Delete) operations for all major entities.
-* **Role-Based Access Control (RBAC)**: Secure endpoints with granular permissions for different user roles (`ADMIN`, `LIBRARIAN`, `STAFF`).
+* **Role-Based Access Control (RBAC)**: Secure endpoints with granular permissions for different user roles (`ADMINISTRATOR`, `LIBRARIAN`, `STAFF`).
 * **Authentication & Authorization**: Secure, token-based authentication using Spring Security and basic auth.
 * **Advanced Book Management**: Handles books with rich metadata, including multiple authors, hierarchical categories, publishers, and cover images.
 * **Transaction Management**: Functionality for borrowing and returning books, with status tracking (`BORROWED`, `RETURNED`).
@@ -51,7 +51,7 @@ The application is built using a classic **Layered Architecture** to ensure sepa
 
 5. **Centralized Exception Handling (`exception` package)**: A `@ControllerAdvice` class intercepts exceptions thrown from any layer and maps them to a standardized `ErrorResponse` DTO, ensuring consistent error handling across the API.
 
-6. **Data Initialization (`dataInitializer` package)**: On application startup, `CommandLineRunner` beans are used to seed the database with essential data like user roles (`ADMIN`, `LIBRARIAN`, `STAFF`) and supported languages, ensuring the system is ready to use immediately.
+6. **Data Initialization (`dataInitializer` package)**: On application startup, `CommandLineRunner` beans are used to seed the database with essential data like user roles (`ADMINISTRATOR`, `LIBRARIAN`, `STAFF`) and supported languages, ensuring the system is ready to use immediately.
 
 ---
 
@@ -89,7 +89,7 @@ Follow these steps to get the application up and running locally.
 
 * JDK 17 or later
 * Apache Maven
-* PostgreSQL (or another relational database)
+* OracleDb (or another relational database)
 
 ### 1. Clone the Repository
 
