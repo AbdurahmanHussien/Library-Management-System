@@ -1,0 +1,73 @@
+package com.springboot.librarysystem.service.impl;
+
+import com.springboot.librarysystem.dto.CategoryDto;
+import com.springboot.librarysystem.entity.Category;
+import com.springboot.librarysystem.exception.ResourceNotFoundException;
+import com.springboot.librarysystem.mapper.CategoryMapper;
+import com.springboot.librarysystem.repository.CategoryRepository;
+import com.springboot.librarysystem.service.ICategoryService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class CategoryServiceImpl implements ICategoryService {
+
+	private final CategoryRepository categoryRepository;
+
+
+
+	@Override
+	public CategoryDto createCategory(CategoryDto dto) {
+		Category parent = null;
+		if (dto.getParentId() != null) {
+			parent = categoryRepository.findById(dto.getParentId())
+					.orElseThrow(() -> new ResourceNotFoundException("Parent category not found"));
+		}
+
+		Category category = CategoryMapper.INSTANCE.toEntity(dto);
+		category.setParent(parent);
+
+		return CategoryMapper.INSTANCE.toDto(categoryRepository.save(category));
+	}
+
+	@Override
+	public List<CategoryDto> getAllCategories() {
+		List<Category> categories = categoryRepository.findAll();
+		return CategoryMapper.INSTANCE.toDtoList(categories);
+	}
+
+	@Override
+	public CategoryDto getCategoryById(Long id) {
+		Category category = categoryRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+		return CategoryMapper.INSTANCE.toDto(category);
+	}
+
+	@Override
+	public CategoryDto updateCategory( CategoryDto dto) {
+
+		Category existing = categoryRepository.findById(dto.getId())
+				.orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+
+		existing.setName(dto.getName());
+
+		if (dto.getParentId() != null) {
+			Category parent = categoryRepository.findById(dto.getParentId())
+					.orElseThrow(() -> new ResourceNotFoundException("Parent category not found"));
+			existing.setParent(parent);
+		} else {
+			existing.setParent(null);
+		}
+
+		return CategoryMapper.INSTANCE.toDto(categoryRepository.save(existing));
+	}
+
+	@Override
+	public void deleteCategory(Long id) {
+		Category category = categoryRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+		categoryRepository.delete(category);
+	}
+}

@@ -1,0 +1,19 @@
+services:
+  restaurant-app:
+    build: .
+    restart: always
+    ports:
+      - "9090:9090"
+    depends_on:
+      - oracle-db
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
+  oracle-db:
+    image: gvenzl/oracle-xe
+    ports:
+      - "1521:1521"
+    environment:
+      ORACLE_PASSWORD: hr
+      APP_USER: hr
+      APP_USER_PASSWORD: hr

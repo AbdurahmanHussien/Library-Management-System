@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: library-system
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  cache:
+    type: redis
+
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
+  main:
+    banner-mode: off
+
+server:
+  port: 9090
+
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: default
+  datasource:
+    url: jdbc:oracle:thin:@//localhost:1523/pdb
+    username: hr
+    password: hr
+    driver-class-name: oracle.jdbc.OracleDriver
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+  datasource:
+    url: jdbc:oracle:thin:@//oracle-db:1521/XEPDB1
+    username: hr
+    password: hr
+    driver-class-name: oracle.jdbc.OracleDriver
+
