@@ -1,7 +1,6 @@
 package com.springboot.librarysystem.dto.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.springboot.librarysystem.entity.auth.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

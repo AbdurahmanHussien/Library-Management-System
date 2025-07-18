@@ -2,7 +2,6 @@ package com.springboot.librarysystem.dto;
 
 import com.springboot.librarysystem.constants.Languages;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
