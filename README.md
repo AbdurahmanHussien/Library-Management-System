@@ -142,6 +142,6 @@ Once the application is running, you can access the interactive Swagger UI to ex
 
 ### Postman Collection (Bonus)
 
-A Postman collection is included in the repository (`CODE81_Library_API.postman_collection.json`). You can import this collection into Postman for a streamlined API testing experience. It includes pre-configured requests for all major endpoints.
+A Postman collection is included in the repository (`swagger_ui_images/CODE81_Library_API.postman_collection.json`). You can import this collection into Postman for a streamlined API testing experience. It includes pre-configured requests for all major endpoints.
 
 
