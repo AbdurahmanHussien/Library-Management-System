@@ -70,9 +70,38 @@ The application is built using a classic **Layered Architecture** to ensure sepa
 
 ---
 
+
+##  🏗️ Project Structure
+```
+Library-system/
+├── src/
+│   ├── main/java/com/librarysystem/
+│   │   │   ├── config/         # 🛠️ Spring configuration classes
+│   │   │   ├── controller/     # 🎮 REST controllers
+│   │   │   ├── constants/      # ❗ constants values
+│   │   │   ├── dataInitializer/  # 📦 Language and roles intilize
+│   │   │   ├── dto/            # 📦 Data Transfer Objects
+│   │   │   ├── exception/      # ❗ Exception handling
+│   │   │   ├── entity/          # 🗃️ Entity classes
+│   │   │   ├── repository/     # 💾 JPA repositories
+│   │   │   ├── mapper/         # 🔒  mapStruct classes
+│   │   │   └── service/        # 💡 Business logic
+│   │   └── resources/
+│   │       ├── i18n            # ⚙️ bundleMessages in Arabic and English
+│   │       ├── application.yml # ⚙️ Configuration
+│   │       └── static/         # 🖼️ Static resources
+│   └── pom.xml                 # 📦 Maven dependencies
+├── sql_samples/                 # 🖼️sql scripts
+├── ERD.png                     # 🖼️ ERD Diagram
+├── swagger_UI)images/          # 🖼️ Screenshots & images   
+└── README.md                   # 📖 This file
+```
+
+---
+
 ## 📄 Database Schema (ERD)
 
-An Entity-Relationship Diagram (ERD) is included in the repository to visually represent the database schema and the relationships between entities like `Book`, `Author`, `Category`, `Member`, and `User`.
+An Entity-Relationship Diagram (ERD) is included below to visually represent the database schema and the relationships between entities such as `Book`, `Author`, `Category`, `Member`, and `User`.
 
 **Key Relationships**:
 * `Book` & `Author`: Many-to-Many
@@ -81,6 +110,7 @@ An Entity-Relationship Diagram (ERD) is included in the repository to visually r
 * `Borrowing` & `Book`: Many-to-One
 * `Borrowing` & `Member`: Many-to-One
 
+![ERD Diagram](ERD.png)
 ---
 
 ## ⚙️ Getting Started
