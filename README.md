@@ -27,7 +27,7 @@ The system is designed following modern software architecture principles to be s
 * **Framework**: Spring Boot 3.x
 * **Language**: Java 17
 * **Security**: Spring Security (basic Authentication)
-* **Database**: PostgreSQL (or any other relational database)
+* **Database**: OracleDB (or any other relational database)
 * **Data Persistence**: Spring Data JPA / Hibernate
 * **API Documentation**: Springdoc OpenAPI (Swagger 3)
 * **Mapping**: MapStruct for efficient DTO-Entity mapping
