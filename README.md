@@ -14,7 +14,7 @@ The system is designed following modern software architecture principles to be s
 * **Role-Based Access Control (RBAC)**: Secure endpoints with granular permissions for different user roles (`ADMINISTRATOR`, `LIBRARIAN`, `STAFF`).
 * **Authentication & Authorization**: Secure, token-based authentication using Spring Security and basic auth.
 * **Advanced Book Management**: Handles books with rich metadata, including multiple authors, hierarchical categories, publishers, and cover images.
-* **Transaction Management**: Functionality for borrowing and returning books, with status tracking (`BORROWED`, `RETURNED`).
+* **Transaction Management**: Functionality for borrowing and returning books, with status tracking (`BORROWED`, `RETURNED`, `OVERDUE`).
 * **Internationalization (i18n)**: Support for multiple languages (English & Arabic) for API response messages.
 * **User Activity Logging**: A custom logger to track significant user actions for auditing purposes.
 * **Global Exception Handling**: A centralized mechanism to handle application errors gracefully and provide consistent JSON error responses.
