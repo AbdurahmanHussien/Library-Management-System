@@ -5,7 +5,7 @@ This project is a comprehensive, enterprise-grade Library Management System buil
 The system is designed following modern software architecture principles to be scalable, secure, and maintainable, fulfilling all the requirements of the CODE81 backend developer challenge.
 
 ---
-**postman Collections Link** : `https://galactic-eclipse-941788.postman.co/workspace/My-Workspace~81742d9b-15a8-43f3-8350-4a02fff553d3/collection/43180442-6d5baaeb-731c-46b8-92a2-2e3109a4df75?action=share&creator=43180442`
+[**postman Collections Link**](https://galactic-eclipse-941788.postman.co/workspace/My-Workspace~81742d9b-15a8-43f3-8350-4a02fff553d3/collection/43180442-6d5baaeb-731c-46b8-92a2-2e3109a4df75?action=share&creator=43180442)
 ---
 
 ## ✨ Features
