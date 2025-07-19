@@ -92,9 +92,11 @@ Library-system/
 │   │       ├── application.yml # ⚙️ Configuration
 │   │       └── static/         # 🖼️ Static resources
 │   └── pom.xml                 # 📦 Maven dependencies
-├── sql_samples/                 # 🖼️sql scripts
+├── sql_samples/                 # ⚙️ sql scripts
+├── Dockerfile                   # ⚙️ docker file
+├── docker-compose.yml           # ⚙️ Docker Compose file
 ├── ERD.png                     # 🖼️ ERD Diagram
-├── swagger_UI)images/          # 🖼️ Screenshots & images   
+├── swagger_UI_images/          # 🖼️ Screenshots & images   
 └── README.md                   # 📖 This file
 ```
 
