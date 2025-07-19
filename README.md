@@ -33,7 +33,8 @@ The system is designed following modern software architecture principles to be s
 * **Mapping**: MapStruct for efficient DTO-Entity mapping
 * **Utilities**: Lombok to reduce boilerplate code
 * **Build Tool**: Maven
-*  **Containerization**: Docker
+* **Containerization**: Docker
+* **Caching**: Redis
 
 ---
 
