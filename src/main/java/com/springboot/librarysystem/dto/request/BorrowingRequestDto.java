@@ -22,7 +22,4 @@ public class BorrowingRequestDto {
 	@Schema(description = "Borrow date", example = "2023-05-01")
 	public LocalDate borrowDate;
 
-	@FutureOrPresent(message = "Due date must be today or in the future")
-	@NotNull(message = "Due date is required")
-	public LocalDate dueDate;
 }

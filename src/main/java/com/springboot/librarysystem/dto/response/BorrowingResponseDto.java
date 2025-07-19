@@ -1,5 +1,6 @@
 package com.springboot.librarysystem.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.springboot.librarysystem.constants.BorrowStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -9,6 +10,7 @@ import java.time.LocalDate;
 
 @Data
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BorrowingResponseDto {
 	@Schema(example = "1")
 	private Long id;

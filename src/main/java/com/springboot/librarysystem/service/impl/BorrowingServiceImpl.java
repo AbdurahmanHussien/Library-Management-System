@@ -38,7 +38,7 @@ public class BorrowingServiceImpl implements IBorrowingService {
 				.member(member)
 				.book(book)
 				.borrowDate(LocalDate.now())
-				.dueDate(dto.getDueDate())
+				.dueDate(dto.getBorrowDate().plusDays(3))
 				.status(BorrowStatus.BORROWED)
 				.build();
 
@@ -53,6 +53,10 @@ public class BorrowingServiceImpl implements IBorrowingService {
 				.orElseThrow(() -> new ResourceNotFoundException("borrowing.not.found"));
 
 		borrowing.setReturnDate(LocalDate.now());
+
+		if (LocalDate.now().isAfter(borrowing.getDueDate())) {
+			borrowing.setStatus(BorrowStatus.OVERDUE);
+		}
 		borrowing.setStatus(BorrowStatus.RETURNED);
 		borrowing = borrowingRepository.save(borrowing);
 
