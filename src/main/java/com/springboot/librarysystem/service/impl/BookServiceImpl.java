@@ -10,6 +10,8 @@ import com.springboot.librarysystem.repository.*;
 import com.springboot.librarysystem.service.IBookService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -25,6 +27,7 @@ public class BookServiceImpl implements IBookService {
 	private final LanguageRepository languageRepository;
 
 	@Override
+	@Cacheable(value = "books")
 	public List<BookDto> getAllBooks() {
 		List<BookDto> books = bookRepository.findAll()
 				.stream()
@@ -45,6 +48,7 @@ public class BookServiceImpl implements IBookService {
 
 	@Override
 	@Transactional
+	@CacheEvict(value = "books", allEntries = true)
 	public BookDto addBook(BookDto bookDto) {
 		if (bookDto.getId() != null) {
 			throw new BadRequestException("id.must.be.null");
@@ -56,6 +60,7 @@ public class BookServiceImpl implements IBookService {
 
 	@Override
 	@Transactional
+	@CacheEvict(value = "books", allEntries = true)
 	public BookDto updateBook(BookDto bookDto) {
 		if (bookDto.getId() == null) {
 			throw new BadRequestException("id.required");
@@ -69,6 +74,7 @@ public class BookServiceImpl implements IBookService {
 	}
 
 	@Override
+	@CacheEvict(value = "books", allEntries = true)
 	public void deleteBookById(Long id) {
 		Book book = bookRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("book.not.found"));

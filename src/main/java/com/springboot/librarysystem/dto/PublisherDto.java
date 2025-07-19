@@ -6,12 +6,14 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.io.Serializable;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 @Builder
-public class PublisherDto {
+public class PublisherDto implements Serializable {
 
 	@Schema(description = "publisher.id", example = "1")
 	private Long id;

@@ -42,7 +42,7 @@ public class SecurityConfig {
 								.requestMatchers(HttpMethod.GET, "/book/**", "/member/**", "/borrowing/**", "/author/**", "/category/**", "/language/**", "/publisher/**", "/userLog/**")
 								.hasAnyRole("ADMINISTRATOR", "LIBRARIAN", "STAFF") //staff can only GET books, members, borrowings, authors, categories, languages, publishers
 								.requestMatchers(AUTH_WHITELIST).permitAll()
-								.requestMatchers("/users/**", "/author/**", "/category/**", "/language/**", "/publisher/**").hasRole("ADMINISTRATOR") // only admin can add authors, categories, languages, publishers, users(or Accounts)
+								.requestMatchers("/user/**", "/author/**", "/category/**", "/language/**", "/publisher/**").hasRole("ADMINISTRATOR") // only admin can add authors, categories, languages, publishers, users(or Accounts)
 								.requestMatchers("/book/**", "/member/**", "/borrowing/**").hasAnyRole("ADMINISTRATOR", "LIBRARIAN") // only admin and librarian can add books, members, borrowings
 				)
 				.httpBasic(Customizer.withDefaults())

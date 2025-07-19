@@ -6,6 +6,8 @@ import com.springboot.librarysystem.exception.ResourceNotFoundException;
 import com.springboot.librarysystem.mapper.UserLogMapper;
 import com.springboot.librarysystem.repository.UserLogRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -21,6 +23,8 @@ public class UserLogService {
 
 	private final UserLogRepository userLogRepository;
 
+
+	@CacheEvict(value = {"findByUsername", "getAllUserLogs"}, allEntries = true)
 	public void logUserAction(String actionType, String details) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = (auth != null) ? auth.getName() : "Anonymous";
@@ -40,6 +44,7 @@ public class UserLogService {
 	}
 
 
+	@Cacheable(value = "findByUsername", key = "#username")
 	public List<UserLogDto> findByUsername(String username) {
 		if (userLogRepository.findByUsername(username) == null) {
 			throw new ResourceNotFoundException("user.not.found");
@@ -47,12 +52,13 @@ public class UserLogService {
 
 			List<UserLog> userLogs =userLogRepository.findByUsername(username);
 
-		return userLogs.stream().map(UserLogMapper.INSTANCE::toDto).toList();
+		return UserLogMapper.INSTANCE.toDtoList(userLogs);
 	}
 
+	@Cacheable(value = "getAllUserLogs")
 	public List<UserLogDto> getAllUserLogs() {
 		List<UserLog> userLogs = userLogRepository.findAll();
-		return userLogs.stream().map(UserLogMapper.INSTANCE::toDto).toList();
+		return UserLogMapper.INSTANCE.toDtoList(userLogs);
 	}
 }
 

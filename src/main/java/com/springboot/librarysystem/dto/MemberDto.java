@@ -7,12 +7,14 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.io.Serializable;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 @Builder
-public class MemberDto {
+public class MemberDto implements Serializable {
 
 	@Schema(description = "Member ID", example = "1")
 	private Long id;

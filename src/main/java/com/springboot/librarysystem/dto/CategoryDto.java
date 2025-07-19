@@ -6,13 +6,15 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.io.Serializable;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CategoryDto {
+public class CategoryDto implements Serializable {
 
 	@Schema(examples = "1", description = "Category ID")
 	private Long id;

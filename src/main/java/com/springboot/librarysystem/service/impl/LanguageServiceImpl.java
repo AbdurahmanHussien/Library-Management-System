@@ -9,6 +9,8 @@ import com.springboot.librarysystem.mapper.LanguageMapper;
 import com.springboot.librarysystem.repository.LanguageRepository;
 import com.springboot.librarysystem.service.ILanguageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
@@ -23,6 +25,7 @@ public class LanguageServiceImpl implements ILanguageService {
 
 
 	@Override
+	@CacheEvict(value = {"languages", "language"}, allEntries = true)
 	public LanguageDto addLanguage(LanguageDto dto) {
 		if(Objects.nonNull(dto.getId())) {
 			throw new BadRequestException("id.must.be.null");
@@ -37,6 +40,7 @@ public class LanguageServiceImpl implements ILanguageService {
 	}
 
 	@Override
+	@Cacheable(value = "languages")
 	public List<LanguageDto> getAllLanguages() {
 		return languageRepository.findAll()
 				.stream()
@@ -45,6 +49,7 @@ public class LanguageServiceImpl implements ILanguageService {
 	}
 
 	@Override
+	@Cacheable(value = "language", key = "#id")
 	public LanguageDto getLanguageById(Long id) {
 		Language language = languageRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("language.not.found"));
@@ -52,6 +57,7 @@ public class LanguageServiceImpl implements ILanguageService {
 	}
 
 	@Override
+	@CacheEvict(value = {"languages", "language"}, allEntries = true)
 	public LanguageDto updateLanguage(LanguageDto dto) {
 		if (Objects.isNull(dto.getId())) {
 			throw new BadRequestException("id.required");
@@ -66,6 +72,7 @@ public class LanguageServiceImpl implements ILanguageService {
 	}
 
 	@Override
+	@CacheEvict(value = {"languages", "language"}, allEntries = true)
 	public void deleteLanguage(Long id) {
 		Language language = languageRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("language.not.found"));

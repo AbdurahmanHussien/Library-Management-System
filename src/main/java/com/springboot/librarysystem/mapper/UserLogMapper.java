@@ -6,17 +6,17 @@ import com.springboot.librarysystem.entity.UserLog;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface UserLogMapper {
 
 	UserLogMapper INSTANCE = Mappers.getMapper(UserLogMapper.class);
 
 
-	UserLogDto toDtoList(UserLog userLog);
+	List<UserLogDto> toDtoList( List<UserLog> userLogs);
 
-	UserLog toEntityList(UserLogDto userLogDto);
+	List<UserLog> toEntityList(List<UserLogDto> userLogDto);
 
-	UserLogDto toDto(UserLog userLog);
 
-	UserLog toEntity(UserLogDto userLogDto);
 }

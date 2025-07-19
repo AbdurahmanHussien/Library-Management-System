@@ -3,6 +3,8 @@ package com.springboot.librarysystem.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.*;
+
+import java.io.Serializable;
 import java.util.List;
 
 @AllArgsConstructor
@@ -10,7 +12,7 @@ import java.util.List;
 @Setter
 @Getter
 @Builder
-public class BookDto {
+public class BookDto implements Serializable {
 	private Long id;
 
 	@NotBlank(message = "title.is.required")

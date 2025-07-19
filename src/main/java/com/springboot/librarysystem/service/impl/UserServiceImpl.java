@@ -11,6 +11,8 @@ import com.springboot.librarysystem.repository.RoleRepository;
 import com.springboot.librarysystem.repository.UserRepository;
 import com.springboot.librarysystem.service.IUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
@@ -29,6 +31,7 @@ public class UserServiceImpl implements IUserService {
 	private final RoleRepository roleRepository;
 
 	@Override
+	@Cacheable(value = "user", key = "#id")
 	public Optional<UserDto> getUserById(Long id) {
 		Optional<User> user = userRepository.findById(id);
 		if (user.isEmpty()) {
@@ -38,6 +41,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	@CacheEvict(value = {"user", "users"}, allEntries = true)
 	public UserDto createUser(UserDto userDto, List<Long> roleIds) {
 		if (Objects.nonNull(userDto.getId())) {
 			throw new BadRequestException("id.must.be.null");
@@ -52,6 +56,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	@Cacheable(value = "users")
 	public List<UserDto> getAllUsers() {
 
 		List<UserDto> users =userRepository.findAll()
@@ -66,6 +71,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	@CacheEvict(value = {"user", "users"}, allEntries = true)
 	public UserDto updateUser(UserDto userDto, List<Long> roleIds) {
 		if (Objects.isNull(userDto.getId())) {
 			throw new BadRequestException("id.required");
@@ -82,11 +88,15 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	@CacheEvict(value = {"user", "users"}, allEntries = true)
 	public void deleteUser(Long id) {
 		User user = userRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("user.not.found"));
 		userRepository.delete(user);
 	}
+
+
+
 
 	private UserDto saveUser(UserDto userDto, List<Long> roleIds, User existingUser) {
 		List<Role> roles = roleRepository.findAllById(roleIds);

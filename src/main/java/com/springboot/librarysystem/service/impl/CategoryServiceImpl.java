@@ -7,6 +7,8 @@ import com.springboot.librarysystem.mapper.CategoryMapper;
 import com.springboot.librarysystem.repository.CategoryRepository;
 import com.springboot.librarysystem.service.ICategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -19,6 +21,7 @@ public class CategoryServiceImpl implements ICategoryService {
 
 
 	@Override
+	@CacheEvict(value = {"categories", "category"}, allEntries = true)
 	public CategoryDto createCategory(CategoryDto dto) {
 		Category parent = null;
 		if (dto.getParentId() != null) {
@@ -33,12 +36,14 @@ public class CategoryServiceImpl implements ICategoryService {
 	}
 
 	@Override
+	@Cacheable(value = "categories")
 	public List<CategoryDto> getAllCategories() {
 		List<Category> categories = categoryRepository.findAll();
 		return CategoryMapper.INSTANCE.toDtoList(categories);
 	}
 
 	@Override
+	@Cacheable(value = "category", key = "#id")
 	public CategoryDto getCategoryById(Long id) {
 		Category category = categoryRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("category.not.found"));
@@ -46,6 +51,7 @@ public class CategoryServiceImpl implements ICategoryService {
 	}
 
 	@Override
+	@CacheEvict(value = {"categories", "category"}, allEntries = true)
 	public CategoryDto updateCategory( CategoryDto dto) {
 
 		Category existing = categoryRepository.findById(dto.getId())
@@ -65,6 +71,7 @@ public class CategoryServiceImpl implements ICategoryService {
 	}
 
 	@Override
+	@CacheEvict(value = {"categories", "category"}, allEntries = true)
 	public void deleteCategory(Long id) {
 		Category category = categoryRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("category.not.found"));

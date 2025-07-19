@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.Set;
 
 
@@ -16,7 +17,7 @@ import java.util.Set;
 @Setter
 @Getter
 @Builder
-public class UserDto {
+public class UserDto implements Serializable {
 
 	@Schema(description = "User ID", example = "1")
 	private Long id;

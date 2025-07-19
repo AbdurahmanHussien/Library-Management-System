@@ -7,6 +7,8 @@ import com.springboot.librarysystem.mapper.AuthorMapper;
 import com.springboot.librarysystem.repository.AuthorRepository;
 import com.springboot.librarysystem.service.IAuthorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
@@ -18,6 +20,7 @@ public class AuthorServiceImpl implements IAuthorService {
 	private final AuthorRepository authorRepository;
 
 	@Override
+	@CacheEvict(value ={ "authors", "author"}, allEntries = true)
 	public AuthorDto addAuthor(AuthorDto dto) {
 		if(Objects.nonNull(dto.getId())) {
 			throw new RuntimeException("id.must.be.null");
@@ -29,6 +32,7 @@ public class AuthorServiceImpl implements IAuthorService {
 	}
 
 	@Override
+	@Cacheable(value = "authors")
 	public List<AuthorDto> getAllAuthors() {
 		List<AuthorDto> authors = authorRepository.findAll()
 				.stream()
@@ -41,6 +45,7 @@ public class AuthorServiceImpl implements IAuthorService {
 	}
 
 	@Override
+	@Cacheable(value = "author", key = "#id")
 	public AuthorDto getAuthorById(Long id) {
 		Author author = authorRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("author.not.found"));
@@ -48,6 +53,7 @@ public class AuthorServiceImpl implements IAuthorService {
 	}
 
 	@Override
+	@CacheEvict(value ={ "authors", "author"}, allEntries = true)
 	public AuthorDto updateAuthor(AuthorDto authorDto) {
 		Author existing = authorRepository.findById(authorDto.getId())
 				.orElseThrow(() -> new ResourceNotFoundException("author.not.found"));
@@ -60,6 +66,7 @@ public class AuthorServiceImpl implements IAuthorService {
 	}
 
 	@Override
+	@CacheEvict(value ={ "authors", "author"}, allEntries = true)
 	public void deleteAuthor(Long id) {
 		if (!authorRepository.existsById(id)) {
 			throw new ResourceNotFoundException("author.not.found");

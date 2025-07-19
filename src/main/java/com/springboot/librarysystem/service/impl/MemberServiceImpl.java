@@ -8,6 +8,8 @@ import com.springboot.librarysystem.mapper.MemberMapper;
 import com.springboot.librarysystem.repository.MemberRepository;
 import com.springboot.librarysystem.service.IMemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,6 +23,7 @@ public class MemberServiceImpl implements IMemberService {
 	private final MemberRepository memberRepository;
 
 	@Override
+	@CacheEvict(value = "members", allEntries = true)
 	public MemberDto createMember(MemberDto dto) {
 		if (Objects.nonNull(dto.getId())) {
 			throw new BadRequestException("id.must.be.null");
@@ -32,6 +35,7 @@ public class MemberServiceImpl implements IMemberService {
 	}
 
 	@Override
+	@Cacheable(value = "members")
 	public List<MemberDto> getAllMembers() {
 		List<Member> members = memberRepository.findAll();
 		if (members.isEmpty()) {
@@ -48,6 +52,7 @@ public class MemberServiceImpl implements IMemberService {
 	}
 
 	@Override
+	@CacheEvict(value = "members", allEntries = true)
 	public void deleteMemberById(Long id) {
 		Member member = memberRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("member.not.found"));
@@ -55,6 +60,7 @@ public class MemberServiceImpl implements IMemberService {
 	}
 
 	@Override
+	@CacheEvict(value = "members", allEntries = true)
 	public MemberDto updateMember(MemberDto dto) {
 		if (Objects.isNull(dto.getId())) {
 			throw new BadRequestException("id.required");
