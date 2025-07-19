@@ -33,6 +33,7 @@ The system is designed following modern software architecture principles to be s
 * **Mapping**: MapStruct for efficient DTO-Entity mapping
 * **Utilities**: Lombok to reduce boilerplate code
 * **Build Tool**: Maven
+*  **Containerization**: Docker
 
 ---
 
@@ -109,6 +110,7 @@ An Entity-Relationship Diagram (ERD) is included below to visually represent the
 * `Book` & `Publisher`: Many-to-One
 * `Borrowing` & `Book`: Many-to-One
 * `Borrowing` & `Member`: Many-to-One
+* `user` & `role`: Many-to-Many
 
 ![ERD Diagram](ERD.png)
 ---
@@ -148,7 +150,8 @@ spring:
     driver-class-name: oracle.jdbc.OracleDriver
 ```
 
-### 3. Run the Application
+### 3. Run the Application 
+## 3.1. Locally
 
 You can run the application using the Spring Boot Maven plugin:
 
@@ -157,6 +160,42 @@ mvn spring-boot:run
 ```
 
 The application will start on port `9090`.
+
+
+## 3.2. Docker
+
+1. **Build and Start Containers**
+
+   ```bash
+   docker-compose up --build
+   ```
+
+   This command starts:
+
+   * Oracle database container
+   * Spring Boot application container
+
+2. **Database Configuration**
+
+   * **Host**: `localhost`
+   * **Port**: `1521`
+   * **SID**: `XEPDB1` (or your configured PDB)
+   * **Username**: `your_user`
+   * **Password**: `your_password`
+
+3. **Spring Boot Connection**
+   `application.yml` included database Connection enabled with docker profile
+
+4. **Useful Commands**
+
+   * Restart: `docker-compose restart`
+   * Stop: `docker-compose down`
+   * Logs: `docker-compose logs -f`
+
+The setup aims to simplify local development and testing by providing a consistent runtime environment.
+
+---
+
 
 ### 4. Sample Data
 
