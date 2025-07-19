@@ -59,7 +59,7 @@ The application is built using a classic **Layered Architecture** to ensure sepa
 
 ## 🔑 Security
 
-* **Authorization **:
+* **Authorization**:
   * API endpoints are secured based on user roles. The system defines three primary roles:
     * `ADMINISTRATOR`: Has full access to all APIs, including system user management.
     * `LIBRARIAN`: Can manage books, authors, categories, publishers, and borrowing transactions.
