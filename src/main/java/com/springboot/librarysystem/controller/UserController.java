@@ -1,6 +1,6 @@
 package com.springboot.librarysystem.controller;
 
-import com.springboot.librarysystem.config.UserActivityLogger;
+import com.springboot.librarysystem.service.UserLogService;
 import com.springboot.librarysystem.dto.auth.UserDto;
 import com.springboot.librarysystem.dto.response.ErrorResponse;
 import com.springboot.librarysystem.service.IUserService;
@@ -22,7 +22,7 @@ import java.util.Optional;
 public class UserController {
 
 	private final IUserService userService;
-	private final UserActivityLogger userActivityLogger;
+	private final UserLogService userLogService;
 
 	@GetMapping
 	@Operation(summary = "Get all users")
@@ -41,7 +41,6 @@ public class UserController {
 	})
 	public ResponseEntity<List<UserDto>> getAllUsers() {
 		List<UserDto> users = userService.getAllUsers();
-		userActivityLogger.logUserAction("Get","All users");
 		return ResponseEntity.ok().body(users);
 	}
 
@@ -62,7 +61,6 @@ public class UserController {
 	})
 	public ResponseEntity<Optional<UserDto>> getUserById(@PathVariable Long id) {
 		Optional<UserDto> user = userService.getUserById(id);
-		userActivityLogger.logUserAction("Get","User by id: " + id);
 		return ResponseEntity.ok().body(user);
 	}
 
@@ -82,7 +80,7 @@ public class UserController {
 	})
 	public ResponseEntity<UserDto> createUser( @Valid @RequestBody UserDto userDto, @RequestParam List<Long> roleIds) {
 		UserDto user = userService.createUser(userDto, roleIds);
-		userActivityLogger.logUserAction("Post","Create user");
+		userLogService.logUserAction("Post","Create user with username: " + userDto.getUsername());
 		return ResponseEntity.ok().body(user);
 	}
 
@@ -102,7 +100,7 @@ public class UserController {
 	})
 	public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto, @RequestParam List<Long> roleIds) {
 		UserDto user = userService.updateUser(userDto, roleIds);
-		userActivityLogger.logUserAction("Put","Update user with id: " + userDto.getId());
+		userLogService.logUserAction("Put","Update user with id: " + userDto.getId());
 		return ResponseEntity.ok().body(user);
 	}
 
@@ -122,7 +120,8 @@ public class UserController {
 	})
 	public ResponseEntity<?> deleteUser(@PathVariable Long id) {
 		userService.deleteUser(id);
-		userActivityLogger.logUserAction("Delete","Delete user with id: " + id);
+		userLogService.logUserAction("Delete","Delete user with id: " + id);
 		return ResponseEntity.ok("User deleted successfully");
 	}
+
 }

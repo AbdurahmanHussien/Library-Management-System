@@ -1,7 +1,7 @@
 package com.springboot.librarysystem.controller;
 
 
-import com.springboot.librarysystem.config.UserActivityLogger;
+import com.springboot.librarysystem.service.UserLogService;
 import com.springboot.librarysystem.dto.AuthorDto;
 import com.springboot.librarysystem.dto.auth.UserDto;
 import com.springboot.librarysystem.dto.response.ErrorResponse;
@@ -23,7 +23,7 @@ import java.util.List;
 public class AuthorController {
 
 	private final IAuthorService authorService;
-	private final UserActivityLogger userActivityLogger;
+	private final UserLogService userLogService;
 
 
 
@@ -44,7 +44,6 @@ public class AuthorController {
 	})
 	public ResponseEntity<List<AuthorDto>> getAllAuthors() {
 		List<AuthorDto> authors = authorService.getAllAuthors();
-		userActivityLogger.logUserAction("Get","All authors");
 		return ResponseEntity.ok().body(authors);
 
 	}
@@ -67,7 +66,6 @@ public class AuthorController {
 	@Operation(summary = "Get author by id")
 	public ResponseEntity<AuthorDto> getAuthorById(@PathVariable Long id) {
 		AuthorDto author = authorService.getAuthorById(id);
-		userActivityLogger.logUserAction("Get","Author by id: " + id);
 		return ResponseEntity.ok().body(author);
 	}
 
@@ -90,7 +88,7 @@ public class AuthorController {
 	@Operation(summary = "Create author")
 	public ResponseEntity<AuthorDto> createAuthor(@Valid @RequestBody AuthorDto authorDto) {
 		AuthorDto author = authorService.addAuthor(authorDto);
-		userActivityLogger.logUserAction("Post", "Create author");
+		userLogService.logUserAction("Post", "Create author with name : " + authorDto.getName());
 		return ResponseEntity.ok().body(author);
 	}
 
@@ -113,7 +111,7 @@ public class AuthorController {
 	})
 	public ResponseEntity<AuthorDto> updateAuthor(@Valid @RequestBody AuthorDto authorDto) {
 		AuthorDto author = authorService.updateAuthor(authorDto);
-		userActivityLogger.logUserAction("Put", "Update author with id: " + authorDto.getId());
+		userLogService.logUserAction("Put", "Update author with id: " + authorDto.getId());
 		return ResponseEntity.ok().body(author);
 	}
 
@@ -134,7 +132,7 @@ public class AuthorController {
 	})
 	public ResponseEntity<?> deleteAuthor(@PathVariable Long id) {
 		authorService.deleteAuthor(id);
-		userActivityLogger.logUserAction("Delete", "Delete author with id: " + id);
+		userLogService.logUserAction("Delete", "Delete author with id: " + id);
 		return ResponseEntity.ok("Author deleted successfully");
 	}
 

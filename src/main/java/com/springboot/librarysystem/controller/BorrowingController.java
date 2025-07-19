@@ -1,6 +1,6 @@
 package com.springboot.librarysystem.controller;
 
-import com.springboot.librarysystem.config.UserActivityLogger;
+import com.springboot.librarysystem.service.UserLogService;
 import com.springboot.librarysystem.dto.request.BorrowingRequestDto;
 import com.springboot.librarysystem.dto.response.BorrowingResponseDto;
 import com.springboot.librarysystem.dto.response.ErrorResponse;
@@ -23,7 +23,7 @@ import java.util.List;
 public class BorrowingController {
 
 	private final IBorrowingService borrowingService;
-	private final UserActivityLogger userActivityLogger;
+	private final UserLogService userLogService;
 
 	@PostMapping
 	@Operation(summary = "Borrow book")
@@ -41,7 +41,7 @@ public class BorrowingController {
 	)
 	public ResponseEntity<BorrowingResponseDto> borrowBook(@Valid @RequestBody BorrowingRequestDto dto) {
 		BorrowingResponseDto responseDto = borrowingService.borrowBook(dto);
-		userActivityLogger.logUserAction("Post","Member with id: " + dto.getMemberId() + " Borrowed book with id: " + dto.getBookId());
+		userLogService.logUserAction("Post","Member with id: " + dto.getMemberId() + " Borrowed book with id: " + dto.getBookId());
 		return ResponseEntity.ok(responseDto);
 	}
 
@@ -61,7 +61,7 @@ public class BorrowingController {
 	)
 	public ResponseEntity<BorrowingResponseDto> returnBook(@PathVariable Long id) {
 		BorrowingResponseDto responseDto = borrowingService.returnBook(id);
-		userActivityLogger.logUserAction("Put","Member with id: " + responseDto.getMemberId() + " Returned book with id: " + responseDto.getBookId());
+		userLogService.logUserAction("Put","Member with id: " + responseDto.getMemberId() + " Returned book with id: " + responseDto.getBookId());
 		return ResponseEntity.ok(responseDto);
 	}
 
@@ -117,7 +117,7 @@ public class BorrowingController {
 	)
 	public ResponseEntity<?> deleteBorrowing(@PathVariable Long id) {
 		borrowingService.deleteBorrowing(id);
-		userActivityLogger.logUserAction("Delete","Deleted Borrowing with id: " + id);
+		userLogService.logUserAction("Delete","Deleted Borrowing with id: " + id);
 		return ResponseEntity.ok("Borrowing deleted successfully");
 	}
 }

@@ -1,7 +1,7 @@
 package com.springboot.librarysystem.controller;
 
 
-import com.springboot.librarysystem.config.UserActivityLogger;
+import com.springboot.librarysystem.service.UserLogService;
 import com.springboot.librarysystem.dto.MemberDto;
 import com.springboot.librarysystem.service.IMemberService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,7 +18,7 @@ import java.util.List;
 public class MemberController {
 
 	private final IMemberService memberService;
-	private final UserActivityLogger userActivityLogger;
+	private final UserLogService userLogService;
 
 
 
@@ -26,7 +26,6 @@ public class MemberController {
 	@Operation(summary = "Get all members")
 	public ResponseEntity<List<MemberDto>> getAllMembers() {
 		List<MemberDto> members = memberService.getAllMembers();
-		userActivityLogger.logUserAction("Get","All members");
 		return ResponseEntity.ok().body(members);
 
 	}
@@ -35,7 +34,6 @@ public class MemberController {
 	@Operation(summary = "Get member by id")
 	public ResponseEntity<MemberDto> getMemberById(@PathVariable Long id) {
 		MemberDto member = memberService.getMemberById(id);
-		userActivityLogger.logUserAction("Get","member by id: " + id);
 		return ResponseEntity.ok().body(member);
 	}
 
@@ -43,7 +41,7 @@ public class MemberController {
 	@Operation(summary = "Create member")
 	public ResponseEntity<MemberDto> createMember(@Valid @RequestBody MemberDto memberDto) {
 		MemberDto member = memberService.createMember(memberDto);
-		userActivityLogger.logUserAction("Post", "Create member");
+		userLogService.logUserAction("Post", "Create member with name : " + memberDto.getName());
 		return ResponseEntity.ok().body(member);
 	}
 
@@ -51,7 +49,7 @@ public class MemberController {
 	@Operation(summary = "Update member")
 	public ResponseEntity<MemberDto> updateMember(@Valid @RequestBody MemberDto memberDto) {
 		MemberDto member = memberService.updateMember(memberDto);
-		userActivityLogger.logUserAction("Put", "Update member with id: " + memberDto.getId());
+		userLogService.logUserAction("Put", "Update member with id: " + memberDto.getId());
 		return ResponseEntity.ok().body(member);
 	}
 
@@ -59,7 +57,7 @@ public class MemberController {
 	@Operation(summary = "Delete member")
 	public ResponseEntity<?> deleteMember(@PathVariable Long id) {
 		memberService.deleteMemberById(id);
-		userActivityLogger.logUserAction("Delete", "Delete member with id: " + id);
+		userLogService.logUserAction("Delete", "Delete member with id: " + id);
 		return ResponseEntity.ok("member deleted successfully");
 	}
 

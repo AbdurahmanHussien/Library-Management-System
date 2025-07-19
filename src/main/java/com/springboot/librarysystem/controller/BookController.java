@@ -1,6 +1,6 @@
 package com.springboot.librarysystem.controller;
 
-import com.springboot.librarysystem.config.UserActivityLogger;
+import com.springboot.librarysystem.service.UserLogService;
 import com.springboot.librarysystem.dto.BookDto;
 import com.springboot.librarysystem.dto.response.ErrorResponse;
 import com.springboot.librarysystem.service.IBookService;
@@ -21,7 +21,7 @@ import java.util.List;
 public class BookController {
 
 	private final IBookService bookService;
-	private final UserActivityLogger userActivityLogger;
+	private final UserLogService userLogService;
 
 	@GetMapping
 	@Operation(summary = "Get all books")
@@ -38,7 +38,6 @@ public class BookController {
 			)})
 public ResponseEntity<List<BookDto>> getAllBooks() {
 		List<BookDto> books = bookService.getAllBooks();
-		userActivityLogger.logUserAction("Get","All books");
 		return ResponseEntity.ok(books);
 	}
 
@@ -57,7 +56,6 @@ public ResponseEntity<List<BookDto>> getAllBooks() {
 			)})
 	public ResponseEntity<BookDto> getBookById(@PathVariable Long id) {
 		BookDto book = bookService.getBookById(id);
-		userActivityLogger.logUserAction("Get","Book by id: " + id);
 		return ResponseEntity.ok(book);
 	}
 
@@ -76,7 +74,7 @@ public ResponseEntity<List<BookDto>> getAllBooks() {
 			)})
 	public ResponseEntity<BookDto> addBook(@Valid @RequestBody BookDto bookDto) {
 		BookDto createdBook = bookService.addBook(bookDto);
-		userActivityLogger.logUserAction("Post","Add book");
+		userLogService.logUserAction("Post","Add book with title: " + bookDto.getTitle());
 		return ResponseEntity.ok(createdBook);
 	}
 
@@ -95,7 +93,7 @@ public ResponseEntity<List<BookDto>> getAllBooks() {
 			)})
 	public ResponseEntity<BookDto> updateBook(@Valid @RequestBody BookDto bookDto) {
 		BookDto updatedBook = bookService.updateBook(bookDto);
-		userActivityLogger.logUserAction("Put","Update book with id: " + bookDto.getId());
+		userLogService.logUserAction("Put","Update book with id: " + bookDto.getId());
 		return ResponseEntity.ok(updatedBook);
 	}
 
@@ -114,7 +112,7 @@ public ResponseEntity<List<BookDto>> getAllBooks() {
 			)})
 	public ResponseEntity<?> deleteBook(@PathVariable Long id) {
 		bookService.deleteBookById(id);
-		userActivityLogger.logUserAction("Delete","Delete book with id: " + id);
+		userLogService.logUserAction("Delete","Delete book with id: " + id);
 		return ResponseEntity.ok("Book deleted successfully");
 	}
 }

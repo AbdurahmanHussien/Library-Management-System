@@ -1,6 +1,9 @@
-package com.springboot.librarysystem.config;
+package com.springboot.librarysystem.service;
 
+import com.springboot.librarysystem.dto.UserLogDto;
 import com.springboot.librarysystem.entity.UserLog;
+import com.springboot.librarysystem.exception.ResourceNotFoundException;
+import com.springboot.librarysystem.mapper.UserLogMapper;
 import com.springboot.librarysystem.repository.UserLogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -10,10 +13,11 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class UserActivityLogger {
+public class UserLogService {
 
 	private final UserLogRepository userLogRepository;
 
@@ -34,4 +38,21 @@ public class UserActivityLogger {
 
 		userLogRepository.save(log);
 	}
+
+
+	public List<UserLogDto> findByUsername(String username) {
+		if (userLogRepository.findByUsername(username) == null) {
+			throw new ResourceNotFoundException("user.not.found");
+		}
+
+			List<UserLog> userLogs =userLogRepository.findByUsername(username);
+
+		return userLogs.stream().map(UserLogMapper.INSTANCE::toDto).toList();
+	}
+
+	public List<UserLogDto> getAllUserLogs() {
+		List<UserLog> userLogs = userLogRepository.findAll();
+		return userLogs.stream().map(UserLogMapper.INSTANCE::toDto).toList();
+	}
 }
+

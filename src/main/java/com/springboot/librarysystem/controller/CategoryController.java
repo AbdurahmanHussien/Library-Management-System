@@ -1,6 +1,6 @@
 package com.springboot.librarysystem.controller;
 
-import com.springboot.librarysystem.config.UserActivityLogger;
+import com.springboot.librarysystem.service.UserLogService;
 import com.springboot.librarysystem.dto.CategoryDto;
 import com.springboot.librarysystem.service.ICategoryService;
 import jakarta.validation.Valid;
@@ -16,7 +16,7 @@ import java.util.List;
 public class CategoryController {
 
 	private final ICategoryService categoryService;
-	private final UserActivityLogger userActivityLogger;
+	private final UserLogService userLogService;
 
 	@GetMapping
 	public ResponseEntity<List<CategoryDto>> getAllCategories() {
@@ -31,20 +31,20 @@ public class CategoryController {
 	@PostMapping
 	public ResponseEntity<CategoryDto> createCategory(@Valid @RequestBody CategoryDto dto) {
 		CategoryDto categoryDto = categoryService.createCategory(dto);
-		userActivityLogger.logUserAction("create", "New Category");
+		userLogService.logUserAction("create", "New Category with name : "+ dto.getName());
 		return ResponseEntity.ok(categoryDto);
 	}
 
 	@PutMapping
 	public ResponseEntity<CategoryDto> updateCategory(@Valid @RequestBody CategoryDto dto) {
 		CategoryDto categoryDto = categoryService.updateCategory(dto);
-		userActivityLogger.logUserAction("update", "Updated Category with id : "+ dto.getId());
+		userLogService.logUserAction("update", "Updated Category with id : "+ dto.getId());
 		return ResponseEntity.ok(categoryDto);
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
 		categoryService.deleteCategory(id);
-		userActivityLogger.logUserAction("delete", "Deleted Category with id : "+ id);
+		userLogService.logUserAction("delete", "Deleted Category with id : "+ id);
 		return ResponseEntity.ok("category deleted successfully");
 	}}
