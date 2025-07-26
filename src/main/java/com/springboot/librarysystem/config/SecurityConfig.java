@@ -6,9 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -45,8 +44,7 @@ public class SecurityConfig {
 								.requestMatchers("/user/**", "/author/**", "/category/**", "/language/**", "/publisher/**").hasRole("ADMINISTRATOR") // only admin can add authors, categories, languages, publishers, users(or Accounts)
 								.requestMatchers("/book/**", "/member/**", "/borrowing/**").hasAnyRole("ADMINISTRATOR", "LIBRARIAN") // only admin and librarian can add books, members, borrowings
 				)
-				.httpBasic(Customizer.withDefaults())
-				.authenticationProvider(authenticationProvider());
+				.httpBasic(Customizer.withDefaults());
 
 		return http.build();
 	}
@@ -58,17 +56,13 @@ public class SecurityConfig {
 	}
 
 
-	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-		return config.getAuthenticationManager();
-	}
 
 	@Bean
-	public DaoAuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-		provider.setUserDetailsService(userDetailsService);
-		provider.setPasswordEncoder(passwordEncoder());
-		return provider;
+	public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+		AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+		authenticationManagerBuilder
+				.userDetailsService(userDetailsService)
+				.passwordEncoder(passwordEncoder());
+		return authenticationManagerBuilder.build();
 	}
-
 }

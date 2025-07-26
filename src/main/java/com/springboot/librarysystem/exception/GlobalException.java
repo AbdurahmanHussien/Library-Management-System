@@ -1,9 +1,9 @@
 package com.springboot.librarysystem.exception;
 
-
 import com.springboot.librarysystem.dto.BundleMessageDto;
 import com.springboot.librarysystem.dto.response.ErrorResponse;
 import com.springboot.librarysystem.service.BundleTranslatorService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -18,18 +18,17 @@ import java.util.stream.Collectors;
 
 
 @ControllerAdvice
+@RequiredArgsConstructor
 public class GlobalException {
 
     private final BundleTranslatorService bundleTranslator;
 
-    public GlobalException(BundleTranslatorService bundleTranslator) {
-        this.bundleTranslator = bundleTranslator;
-    }
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFound(ResourceNotFoundException ex) {
        BundleMessageDto messages = bundleTranslator.getBundleMessages(ex.getMessage());
-        ErrorResponse apiError = new ErrorResponse(HttpStatus.NOT_FOUND.value(),
+        ErrorResponse apiError = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
                HttpStatus.NOT_FOUND.getReasonPhrase(),
                messages);
 
@@ -39,7 +38,8 @@ public class GlobalException {
     @ExceptionHandler(DuplicateFieldException.class)
     public ResponseEntity<ErrorResponse> handleDuplicate(DuplicateFieldException ex) {
         BundleMessageDto messages = bundleTranslator.getBundleMessages(ex.getMessage());
-        ErrorResponse apiError = new ErrorResponse(HttpStatus.CONFLICT.value(),
+        ErrorResponse apiError = new ErrorResponse(
+                HttpStatus.CONFLICT.value(),
                 HttpStatus.CONFLICT.getReasonPhrase(),
                 messages);
 
@@ -73,17 +73,10 @@ public class GlobalException {
         return ResponseEntity.badRequest().body(errors);
     }
 
-    @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<Map<String, String>> handleRuntime(BadCredentialsException ex) {
-        Map<String, String> error = new HashMap<>();
-        error.put("message", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
-    }
-
 
     // for global exception
-    @ExceptionHandler(RuntimeException .class)
-    public ResponseEntity<ErrorResponse> handleGlobal(RuntimeException  ex) {
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorResponse> handleGlobal(RuntimeException ex) {
         BundleMessageDto messages = bundleTranslator.getBundleMessages(ex.getMessage());
         ErrorResponse apiError = new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
                 HttpStatus.BAD_REQUEST.getReasonPhrase(),

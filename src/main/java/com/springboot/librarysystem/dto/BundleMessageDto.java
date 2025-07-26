@@ -1,10 +1,12 @@
 package com.springboot.librarysystem.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 
 @Data
+@AllArgsConstructor
 public class BundleMessageDto {
 
     @JsonProperty("message_ar")
@@ -15,10 +17,5 @@ public class BundleMessageDto {
     @Schema(description = "message in english", example = "message in english")
     private String messageEn;
 
-
-    public BundleMessageDto(String messageAr, String messageEn) {
-        this.messageAr = messageAr;
-        this.messageEn = messageEn;
-    }
 
 }
