@@ -12,7 +12,7 @@ The system is designed following modern software architecture principles to be s
 
 * **RESTful API**: Full CRUD (Create, Read, Update, Delete) operations for all major entities.
 * **Role-Based Access Control (RBAC)**: Secure endpoints with granular permissions for different user roles (`ADMINISTRATOR`, `LIBRARIAN`, `STAFF`).
-* **Authentication & Authorization**: Secure, token-based authentication using Spring Security and basic auth.
+* **Authentication & Authorization**: Secure, authentication using Spring Security and basic auth.
 * **Advanced Book Management**: Handles books with rich metadata, including multiple authors, hierarchical categories, publishers, and cover images.
 * **Transaction Management**: Functionality for borrowing and returning books, with status tracking (`BORROWED`, `RETURNED`, `OVERDUE`).
 * **Internationalization (i18n)**: Support for multiple languages (English & Arabic) for API response messages.
@@ -27,12 +27,14 @@ The system is designed following modern software architecture principles to be s
 * **Framework**: Spring Boot 3.x
 * **Language**: Java 17
 * **Security**: Spring Security (basic Authentication)
-* **Database**: PostgreSQL (or any other relational database)
+* **Database**: OracleDB (or any other relational database)
 * **Data Persistence**: Spring Data JPA / Hibernate
 * **API Documentation**: Springdoc OpenAPI (Swagger 3)
 * **Mapping**: MapStruct for efficient DTO-Entity mapping
 * **Utilities**: Lombok to reduce boilerplate code
 * **Build Tool**: Maven
+* **Containerization**: Docker
+* **Caching**: Redis
 
 ---
 
@@ -70,9 +72,40 @@ The application is built using a classic **Layered Architecture** to ensure sepa
 
 ---
 
+
+##  🏗️ Project Structure
+```
+Library-system/
+├── src/
+│   ├── main/java/com/librarysystem/
+│   │   │   ├── config/         # 🛠️ Spring configuration classes
+│   │   │   ├── controller/     # 🎮 REST controllers
+│   │   │   ├── constants/      # ❗ constants values
+│   │   │   ├── dataInitializer/  # 📦 Language and roles intilize
+│   │   │   ├── dto/            # 📦 Data Transfer Objects
+│   │   │   ├── exception/      # ❗ Exception handling
+│   │   │   ├── entity/          # 🗃️ Entity classes
+│   │   │   ├── repository/     # 💾 JPA repositories
+│   │   │   ├── mapper/         # 🔒  mapStruct classes
+│   │   │   └── service/        # 💡 Business logic
+│   │   └── resources/
+│   │       ├── i18n            # ⚙️ bundleMessages in Arabic and English
+│   │       ├── application.yml # ⚙️ Configuration
+│   │       └── static/         # 🖼️ Static resources
+│   └── pom.xml                 # 📦 Maven dependencies
+├── sql_samples/                 # ⚙️ sql scripts
+├── Dockerfile                   # ⚙️ docker file
+├── docker-compose.yml           # ⚙️ Docker Compose file
+├── ERD.png                     # 🖼️ ERD Diagram
+├── swagger_UI_images/          # 🖼️ Screenshots & images   
+└── README.md                   # 📖 This file
+```
+
+---
+
 ## 📄 Database Schema (ERD)
 
-An Entity-Relationship Diagram (ERD) is included in the repository to visually represent the database schema and the relationships between entities like `Book`, `Author`, `Category`, `Member`, and `User`.
+An Entity-Relationship Diagram (ERD) is included below to visually represent the database schema and the relationships between entities such as `Book`, `Author`, `Category`, `Member`, and `User`.
 
 **Key Relationships**:
 * `Book` & `Author`: Many-to-Many
@@ -80,7 +113,9 @@ An Entity-Relationship Diagram (ERD) is included in the repository to visually r
 * `Book` & `Publisher`: Many-to-One
 * `Borrowing` & `Book`: Many-to-One
 * `Borrowing` & `Member`: Many-to-One
+* `user` & `role`: Many-to-Many
 
+![ERD Diagram](ERD.png)
 ---
 
 ## ⚙️ Getting Started
@@ -118,7 +153,8 @@ spring:
     driver-class-name: oracle.jdbc.OracleDriver
 ```
 
-### 3. Run the Application
+### 3. Run the Application 
+## 3.1. Locally
 
 You can run the application using the Spring Boot Maven plugin:
 
@@ -127,6 +163,42 @@ mvn spring-boot:run
 ```
 
 The application will start on port `9090`.
+
+
+## 3.2. Docker
+
+1. **Build and Start Containers**
+
+   ```bash
+   docker-compose up --build
+   ```
+
+   This command starts:
+
+   * Oracle database container
+   * Spring Boot application container
+
+2. **Database Configuration**
+
+   * **Host**: `localhost`
+   * **Port**: `1521`
+   * **SID**: `XEPDB1` (or your configured PDB)
+   * **Username**: `your_user`
+   * **Password**: `your_password`
+
+3. **Spring Boot Connection**
+   `application.yml` included database Connection enabled with docker profile
+
+4. **Useful Commands**
+
+   * Restart: `docker-compose restart`
+   * Stop: `docker-compose down`
+   * Logs: `docker-compose logs -f`
+
+The setup aims to simplify local development and testing by providing a consistent runtime environment.
+
+---
+
 
 ### 4. Sample Data
 
