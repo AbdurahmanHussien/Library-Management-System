@@ -30,5 +30,8 @@ public class Borrowing {
 
 	@Enumerated(EnumType.STRING)
 	private BorrowStatus status;
+
+
+
 }
 

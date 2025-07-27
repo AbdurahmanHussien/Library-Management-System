@@ -37,21 +37,21 @@ public class LanguageController {
 	@PostMapping
 	public ResponseEntity<LanguageDto> addLanguage(@Valid @RequestBody LanguageDto dto) {
 		LanguageDto language = languageService.addLanguage(dto);
-		userLogService.logUserAction("Post","Add language: " + dto.getName());
+		userLogService.logUserAction("Post", "Add language: " + dto.getName());
 		return ResponseEntity.ok(language);
 	}
 
 	@PutMapping
 	public ResponseEntity<LanguageDto> updateLanguage(@Valid @RequestBody LanguageDto dto) {
 		LanguageDto language = languageService.updateLanguage(dto);
-		userLogService.logUserAction("Put","Update language: " + dto.getName());
+		userLogService.logUserAction("Put", "Update language: " + dto.getName());
 		return ResponseEntity.ok(language);
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteLanguage(@PathVariable Long id) {
-		 languageService.deleteLanguage(id);
-		userLogService.logUserAction("Delete","Delete language with id: " + id);
+		languageService.deleteLanguage(id);
+		userLogService.logUserAction("Delete", "Delete language with id: " + id);
 		return ResponseEntity.ok("language deleted successfully");
 	}
 }

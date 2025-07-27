@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -17,7 +18,6 @@ import java.util.List;
 public class CategoryServiceImpl implements ICategoryService {
 
 	private final CategoryRepository categoryRepository;
-
 
 
 	@Override
@@ -52,7 +52,7 @@ public class CategoryServiceImpl implements ICategoryService {
 
 	@Override
 	@CacheEvict(value = {"categories", "category"}, allEntries = true)
-	public CategoryDto updateCategory( CategoryDto dto) {
+	public CategoryDto updateCategory(CategoryDto dto) {
 
 		Category existing = categoryRepository.findById(dto.getId())
 				.orElseThrow(() -> new ResourceNotFoundException("category.not.found"));

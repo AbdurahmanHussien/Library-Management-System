@@ -20,31 +20,27 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
 
-			private final CustomUserDetailsService userDetailsService;
+	private final CustomUserDetailsService userDetailsService;
 
-			private static final String[] AUTH_WHITELIST = {
+	private static final String[] AUTH_WHITELIST = {
 
-					"/v3/api-docs/**",
-					"/swagger-ui/**",
-					"/swagger-resources/**",
-					"/v2/api-docs",
-					"/webjars/**"
-			};
+			"/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**", "/v2/api-docs", "/webjars/**"
+	};
 
 
 	@Bean
 	public SecurityFilterChain defaultsecurityFilterChain(HttpSecurity http) throws Exception {
-		http
-				.csrf(AbstractHttpConfigurer::disable)
-				.authorizeHttpRequests(https ->
-						https
+		http.csrf(AbstractHttpConfigurer::disable)
+				.authorizeHttpRequests(
+						https -> https
 								.requestMatchers(HttpMethod.GET, "/book/**", "/member/**", "/borrowing/**", "/author/**", "/category/**", "/language/**", "/publisher/**", "/userLog/**")
 								.hasAnyRole("ADMINISTRATOR", "LIBRARIAN", "STAFF") //staff can only GET books, members, borrowings, authors, categories, languages, publishers
-								.requestMatchers(AUTH_WHITELIST).permitAll()
-								.requestMatchers("/user/**", "/author/**", "/category/**", "/language/**", "/publisher/**").hasRole("ADMINISTRATOR") // only admin can add authors, categories, languages, publishers, users(or Accounts)
-								.requestMatchers("/book/**", "/member/**", "/borrowing/**").hasAnyRole("ADMINISTRATOR", "LIBRARIAN") // only admin and librarian can add books, members, borrowings
-				)
-				.httpBasic(Customizer.withDefaults());
+								.requestMatchers(AUTH_WHITELIST)
+								.permitAll().requestMatchers("/user/**", "/author/**", "/category/**", "/language/**", "/publisher/**")
+								.hasRole("ADMINISTRATOR") // only admin can add authors, categories, languages, publishers, users(or Accounts)
+								.requestMatchers("/book/**", "/member/**", "/borrowing/**")
+								.hasAnyRole("ADMINISTRATOR", "LIBRARIAN") // only admin and librarian can add books, members, borrowings
+				).httpBasic(Customizer.withDefaults());
 
 		return http.build();
 	}
@@ -56,13 +52,10 @@ public class SecurityConfig {
 	}
 
 
-
 	@Bean
 	public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
 		AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-		authenticationManagerBuilder
-				.userDetailsService(userDetailsService)
-				.passwordEncoder(passwordEncoder());
+		authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 		return authenticationManagerBuilder.build();
 	}
 }

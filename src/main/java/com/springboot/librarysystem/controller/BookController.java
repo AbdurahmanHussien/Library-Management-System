@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -29,14 +30,16 @@ public class BookController {
 			@ApiResponse(
 					responseCode = "200",
 					description = "Get all books",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookDto.class)))
-					,
-					@ApiResponse(
-							responseCode = "400",
-							description = "Bad request",
-							content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = BookDto.class)))
+			,
+			@ApiResponse(
+					responseCode = "400",
+					description = "Bad request",
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = ErrorResponse.class))
 			)})
-public ResponseEntity<List<BookDto>> getAllBooks() {
+	public ResponseEntity<List<BookDto>> getAllBooks() {
 		List<BookDto> books = bookService.getAllBooks();
 		return ResponseEntity.ok(books);
 	}
@@ -47,12 +50,14 @@ public ResponseEntity<List<BookDto>> getAllBooks() {
 			@ApiResponse(
 					responseCode = "200",
 					description = "Get book by id",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookDto.class)))
-					,
-					@ApiResponse(
-							responseCode = "400",
-							description = "Bad request",
-							content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = BookDto.class)))
+			,
+			@ApiResponse(
+					responseCode = "400",
+					description = "Bad request",
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = ErrorResponse.class))
 			)})
 	public ResponseEntity<BookDto> getBookById(@PathVariable Long id) {
 		BookDto book = bookService.getBookById(id);
@@ -65,16 +70,18 @@ public ResponseEntity<List<BookDto>> getAllBooks() {
 			@ApiResponse(
 					responseCode = "200",
 					description = "Add book",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookDto.class)))
-					,
-					@ApiResponse(
-							responseCode = "400",
-							description = "Bad request",
-							content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = BookDto.class)))
+			,
+			@ApiResponse(
+					responseCode = "400",
+					description = "Bad request",
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = ErrorResponse.class))
 			)})
 	public ResponseEntity<BookDto> addBook(@Valid @RequestBody BookDto bookDto) {
 		BookDto createdBook = bookService.addBook(bookDto);
-		userLogService.logUserAction("Post","Add book with title: " + bookDto.getTitle());
+		userLogService.logUserAction("Post", "Add book with title: " + bookDto.getTitle());
 		return ResponseEntity.ok(createdBook);
 	}
 
@@ -84,16 +91,18 @@ public ResponseEntity<List<BookDto>> getAllBooks() {
 			@ApiResponse(
 					responseCode = "200",
 					description = "Update book",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookDto.class)))
-					,
-					@ApiResponse(
-							responseCode = "400",
-							description = "Bad request",
-							content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = BookDto.class)))
+			,
+			@ApiResponse(
+					responseCode = "400",
+					description = "Bad request",
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = ErrorResponse.class))
 			)})
 	public ResponseEntity<BookDto> updateBook(@Valid @RequestBody BookDto bookDto) {
 		BookDto updatedBook = bookService.updateBook(bookDto);
-		userLogService.logUserAction("Put","Update book with id: " + bookDto.getId());
+		userLogService.logUserAction("Put", "Update book with id: " + bookDto.getId());
 		return ResponseEntity.ok(updatedBook);
 	}
 
@@ -103,16 +112,18 @@ public ResponseEntity<List<BookDto>> getAllBooks() {
 			@ApiResponse(
 					responseCode = "200",
 					description = "Delete book",
-					content = @Content(mediaType = "text/plain", schema = @Schema(type = "string", example = "Book deleted successfully")))
-					,
-					@ApiResponse(
-							responseCode = "400",
-							description = "Bad request",
-							content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+					content = @Content(mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Book deleted successfully")))
+			,
+			@ApiResponse(
+					responseCode = "400",
+					description = "Bad request",
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = ErrorResponse.class))
 			)})
 	public ResponseEntity<?> deleteBook(@PathVariable Long id) {
 		bookService.deleteBookById(id);
-		userLogService.logUserAction("Delete","Delete book with id: " + id);
+		userLogService.logUserAction("Delete", "Delete book with id: " + id);
 		return ResponseEntity.ok("Book deleted successfully");
 	}
 }

@@ -21,7 +21,6 @@ public class PublisherController {
 	private final UserLogService userLogService;
 
 
-
 	@GetMapping
 	@Operation(summary = "Get all publishers")
 	public ResponseEntity<List<PublisherDto>> getAllPublishers() {

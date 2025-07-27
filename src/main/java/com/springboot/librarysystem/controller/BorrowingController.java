@@ -31,17 +31,19 @@ public class BorrowingController {
 			@ApiResponse(
 					responseCode = "200",
 					description = "Borrow book",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = BorrowingResponseDto.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = BorrowingResponseDto.class))
 			),
 			@ApiResponse(
 					responseCode = "400",
 					description = "Bad request",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = ErrorResponse.class))
 			)}
 	)
 	public ResponseEntity<BorrowingResponseDto> borrowBook(@Valid @RequestBody BorrowingRequestDto dto) {
 		BorrowingResponseDto responseDto = borrowingService.borrowBook(dto);
-		userLogService.logUserAction("Post","Member with id: " + dto.getMemberId() + " Borrowed book with id: " + dto.getBookId());
+		userLogService.logUserAction("Post", "Member with id: " + dto.getMemberId() + " Borrowed book with id: " + dto.getBookId());
 		return ResponseEntity.ok(responseDto);
 	}
 
@@ -51,17 +53,19 @@ public class BorrowingController {
 			@ApiResponse(
 					responseCode = "200",
 					description = "Return book",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = BorrowingResponseDto.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = BorrowingResponseDto.class))
 			),
 			@ApiResponse(
 					responseCode = "400",
 					description = "Bad request",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = ErrorResponse.class))
 			)}
 	)
 	public ResponseEntity<BorrowingResponseDto> returnBook(@PathVariable Long id) {
 		BorrowingResponseDto responseDto = borrowingService.returnBook(id);
-		userLogService.logUserAction("Put","Member with id: " + responseDto.getMemberId() + " Returned book with id: " + responseDto.getBookId());
+		userLogService.logUserAction("Put", "Member with id: " + responseDto.getMemberId() + " Returned book with id: " + responseDto.getBookId());
 		return ResponseEntity.ok(responseDto);
 	}
 
@@ -71,12 +75,14 @@ public class BorrowingController {
 			@ApiResponse(
 					responseCode = "200",
 					description = "Get all borrowings",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = BorrowingResponseDto.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = BorrowingResponseDto.class))
 			),
 			@ApiResponse(
 					responseCode = "400",
 					description = "Bad request",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = ErrorResponse.class))
 			)}
 	)
 	public ResponseEntity<List<BorrowingResponseDto>> getAllBorrowings() {
@@ -89,12 +95,14 @@ public class BorrowingController {
 			@ApiResponse(
 					responseCode = "200",
 					description = "Get borrowing by id",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = BorrowingResponseDto.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = BorrowingResponseDto.class))
 			),
 			@ApiResponse(
 					responseCode = "400",
 					description = "Bad request",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = ErrorResponse.class))
 			)}
 	)
 	public ResponseEntity<BorrowingResponseDto> getBorrowingById(@PathVariable Long id) {
@@ -107,17 +115,19 @@ public class BorrowingController {
 			@ApiResponse(
 					responseCode = "200",
 					description = "Delete borrowing",
-					content = @Content(mediaType = "text/plain", schema = @Schema(type = "string", example = "Borrowing deleted successfully"))
+					content = @Content(mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Borrowing deleted successfully"))
 			),
 			@ApiResponse(
 					responseCode = "400",
 					description = "Bad request",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = ErrorResponse.class))
 			)}
 	)
 	public ResponseEntity<?> deleteBorrowing(@PathVariable Long id) {
 		borrowingService.deleteBorrowing(id);
-		userLogService.logUserAction("Delete","Deleted Borrowing with id: " + id);
+		userLogService.logUserAction("Delete", "Deleted Borrowing with id: " + id);
 		return ResponseEntity.ok("Borrowing deleted successfully");
 	}
 }

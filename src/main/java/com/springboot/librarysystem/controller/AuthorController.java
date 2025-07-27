@@ -15,6 +15,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -26,20 +27,21 @@ public class AuthorController {
 	private final UserLogService userLogService;
 
 
-
 	@GetMapping
 	@Operation(summary = "Get all authors")
 	@ApiResponses({
 			@ApiResponse(
 					responseCode = "200",
 					description = "Get all authors",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.class))
-),
-		@ApiResponse(
-				responseCode = "400",
-				description = "Bad request",
-				content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
-		)
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = UserDto.class))
+			),
+			@ApiResponse(
+					responseCode = "400",
+					description = "Bad request",
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = ErrorResponse.class))
+			)
 
 	})
 	public ResponseEntity<List<AuthorDto>> getAllAuthors() {
@@ -53,12 +55,14 @@ public class AuthorController {
 			@ApiResponse(
 					responseCode = "200",
 					description = "Get  author by id",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = UserDto.class))
 			),
 			@ApiResponse(
 					responseCode = "400",
 					description = "Bad request",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = ErrorResponse.class))
 			)
 
 	})
@@ -70,17 +74,18 @@ public class AuthorController {
 	}
 
 
-
 	@ApiResponses({
 			@ApiResponse(
 					responseCode = "200",
 					description = "create author",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = UserDto.class))
 			),
 			@ApiResponse(
 					responseCode = "400",
 					description = "Bad request",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = ErrorResponse.class))
 			)
 
 	})
@@ -93,19 +98,20 @@ public class AuthorController {
 	}
 
 
-
 	@PutMapping
 	@Operation(summary = "Update author")
 	@ApiResponses({
 			@ApiResponse(
 					responseCode = "200",
 					description = "update author",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = UserDto.class))
 			),
 			@ApiResponse(
 					responseCode = "400",
 					description = "Bad request",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = ErrorResponse.class))
 			)
 
 	})
@@ -121,12 +127,14 @@ public class AuthorController {
 			@ApiResponse(
 					responseCode = "200",
 					description = "delete author",
-					content = @Content(mediaType = "text/plain", schema = @Schema(type = "string", example = "Author deleted successfully"))
+					content = @Content(mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Author deleted successfully"))
 			),
 			@ApiResponse(
 					responseCode = "400",
 					description = "Bad request",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = ErrorResponse.class))
 			)
 
 	})

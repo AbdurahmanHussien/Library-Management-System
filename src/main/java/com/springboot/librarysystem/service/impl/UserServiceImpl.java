@@ -15,7 +15,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -52,14 +52,14 @@ public class UserServiceImpl implements IUserService {
 		if (userRepository.existsByUsername(userDto.getUsername())) {
 			throw new BadRequestException("choose.another.username");
 		}
-		return saveUser(userDto, roleIds , null);
+		return saveUser(userDto, roleIds);
 	}
 
 	@Override
 	@Cacheable(value = "users")
 	public List<UserDto> getAllUsers() {
 
-		List<UserDto> users =userRepository.findAll()
+		List<UserDto> users = userRepository.findAll()
 				.stream()
 				.map(UserMapper.INSTANCE::toDto)
 				.toList();
@@ -76,15 +76,21 @@ public class UserServiceImpl implements IUserService {
 		if (Objects.isNull(userDto.getId())) {
 			throw new BadRequestException("id.required");
 		}
-		if (userRepository.existsByEmail(userDto.getEmail())) {
-			throw new BadRequestException("user.exists");
-		}
-		if (userRepository.existsByUsername(userDto.getUsername())) {
-			throw new BadRequestException("choose.another.username");
-		}
-		User existingUser = UserMapper.INSTANCE.toEntity(userDto);
 
-		return saveUser(userDto, roleIds, existingUser);
+		User existingUser = userRepository.findById(userDto.getId())
+				.orElseThrow(() -> new ResourceNotFoundException("user.not.found"));
+
+		existingUser.setUsername(userDto.getUsername());
+		existingUser.setEmail(userDto.getEmail());
+		existingUser.setActive(userDto.isActive());
+
+		if (Objects.nonNull(userDto.getPassword())) {
+			existingUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
+		}
+
+		existingUser.setRoles(new HashSet<>(roleRepository.findAllById(roleIds)));
+
+		return UserMapper.INSTANCE.toDto(userRepository.save(existingUser));
 	}
 
 	@Override
@@ -96,34 +102,20 @@ public class UserServiceImpl implements IUserService {
 	}
 
 
-
-
-	private UserDto saveUser(UserDto userDto, List<Long> roleIds, User existingUser) {
+	private UserDto saveUser(UserDto userDto, List<Long> roleIds) {
 		List<Role> roles = roleRepository.findAllById(roleIds);
 
 		if (roles.size() != roleIds.size()) {
 			throw new ResourceNotFoundException("role.not.found");
 		}
 
-		User user;
-		if (existingUser != null) {
-			existingUser.setUsername(userDto.getUsername());
-			existingUser.setEmail(userDto.getEmail());
-			existingUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
-			existingUser.setRoles(new HashSet<>(roles));
-			existingUser.setCreatedAt(LocalDateTime.now());
-			existingUser.setActive(true);
-			user = existingUser;
-		} else {
-			user = User.builder()
-					.username(userDto.getUsername())
-					.email(userDto.getEmail())
-					.password(passwordEncoder.encode(userDto.getPassword()))
-					.roles(new HashSet<>(roles))
-					.isActive(true)
-					.createdAt(LocalDateTime.now())
-					.build();
-		}
+		User user = User.builder()
+				.username(userDto.getUsername())
+				.email(userDto.getEmail())
+				.password(passwordEncoder.encode(userDto.getPassword()))
+				.roles(new HashSet<>(roles))
+				.isActive(true)
+				.build();
 
 		User savedUser = userRepository.save(user);
 		return UserMapper.INSTANCE.toDto(savedUser);

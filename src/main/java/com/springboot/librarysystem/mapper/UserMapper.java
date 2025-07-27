@@ -20,8 +20,6 @@ public interface UserMapper {
 	UserDto toDto(User user);
 
 	@Mapping(target = "roles", ignore = true)
-	@Mapping(target = "createdAt", ignore = true)
-
 	User toEntity(UserDto dto);
 
 	default Set<Long> getRoleIds(Set<Role> roles) {

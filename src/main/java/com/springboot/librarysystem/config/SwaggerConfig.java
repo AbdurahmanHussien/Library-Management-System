@@ -12,14 +12,14 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @OpenAPIDefinition(
-        info =@Info(
+        info = @Info(
                 title = "Library Management API",
-                 version = "1.0",
-                 description = "API for Library Management",
-                    contact =@Contact(
-                            name = "Abdurahman Hussein",
-                            email = "abdo.hussien123.ah@gmail.com"
-                    )))
+                version = "1.0",
+                description = "API for Library Management",
+                contact = @Contact(
+                        name = "Abdurahman Hussein",
+                        email = "abdo.hussien123.ah@gmail.com"
+                )))
 public class SwaggerConfig {
 
     @Bean

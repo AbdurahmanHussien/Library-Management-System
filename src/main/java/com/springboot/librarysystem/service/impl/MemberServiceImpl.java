@@ -30,7 +30,6 @@ public class MemberServiceImpl implements IMemberService {
 		}
 
 		Member member = MemberMapper.INSTANCE.toEntity(dto);
-		member.setCreatedAt(LocalDateTime.now());
 		return MemberMapper.INSTANCE.toDto(memberRepository.save(member));
 	}
 

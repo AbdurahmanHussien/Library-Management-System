@@ -1,9 +1,6 @@
 package com.springboot.librarysystem.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 
@@ -16,9 +13,21 @@ public class UserLog  {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	private String username;
+
 	private String ipAddress;
+
 	private String actionType;
+
 	private String details;
+
 	private LocalDateTime time;
+
+
+
+	@PrePersist
+	public void prePersist() {
+		time = LocalDateTime.now();
+	}
 }

@@ -13,8 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -37,7 +35,6 @@ public class UserLogService {
 				.actionType(actionType)
 				.details(details)
 				.ipAddress(ip)
-				.time(LocalDateTime.now())
 				.build();
 
 		userLogRepository.save(log);

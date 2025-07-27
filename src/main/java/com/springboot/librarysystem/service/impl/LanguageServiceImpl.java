@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -27,11 +28,11 @@ public class LanguageServiceImpl implements ILanguageService {
 	@Override
 	@CacheEvict(value = {"languages", "language"}, allEntries = true)
 	public LanguageDto addLanguage(LanguageDto dto) {
-		if(Objects.nonNull(dto.getId())) {
+		if (Objects.nonNull(dto.getId())) {
 			throw new BadRequestException("id.must.be.null");
 		}
 
-		if(languageRepository.existsLanguageByName(dto.getName())) {
+		if (languageRepository.existsLanguageByName(dto.getName())) {
 			throw new BadRequestException("language.exists");
 		}
 		Language language = LanguageMapper.INSTANCE.toEntity(dto);

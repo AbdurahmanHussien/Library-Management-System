@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -30,12 +31,14 @@ public class UserController {
 			@ApiResponse(
 					responseCode = "200",
 					description = "Get all users",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = UserDto.class))
 			),
 			@ApiResponse(
 					responseCode = "400",
 					description = "Bad request",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = ErrorResponse.class))
 			)
 
 	})
@@ -51,12 +54,14 @@ public class UserController {
 			@ApiResponse(
 					responseCode = "200",
 					description = "Get user by id",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = UserDto.class))
 			),
 			@ApiResponse(
 					responseCode = "400",
 					description = "Bad request",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = ErrorResponse.class))
 			)
 	})
 	public ResponseEntity<Optional<UserDto>> getUserById(@PathVariable Long id) {
@@ -70,17 +75,19 @@ public class UserController {
 			@ApiResponse(
 					responseCode = "200",
 					description = "create user",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = UserDto.class))
 			),
 			@ApiResponse(
 					responseCode = "400",
 					description = "Bad request",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = ErrorResponse.class))
 			)
 	})
-	public ResponseEntity<UserDto> createUser( @Valid @RequestBody UserDto userDto, @RequestParam List<Long> roleIds) {
+	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto, @RequestParam List<Long> roleIds) {
 		UserDto user = userService.createUser(userDto, roleIds);
-		userLogService.logUserAction("Post","Create user with username: " + userDto.getUsername());
+		userLogService.logUserAction("Post", "Create user with username: " + userDto.getUsername());
 		return ResponseEntity.ok().body(user);
 	}
 
@@ -90,17 +97,19 @@ public class UserController {
 			@ApiResponse(
 					responseCode = "200",
 					description = "update user",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = UserDto.class))
 			),
 			@ApiResponse(
 					responseCode = "400",
 					description = "Bad request",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = ErrorResponse.class))
 			)
 	})
 	public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto, @RequestParam List<Long> roleIds) {
 		UserDto user = userService.updateUser(userDto, roleIds);
-		userLogService.logUserAction("Put","Update user with id: " + userDto.getId());
+		userLogService.logUserAction("Put", "Update user with id: " + userDto.getId());
 		return ResponseEntity.ok().body(user);
 	}
 
@@ -110,17 +119,19 @@ public class UserController {
 			@ApiResponse(
 					responseCode = "200",
 					description = "delete user",
-					content = @Content(mediaType = "text/plain", schema = @Schema(type = "string", example = "User deleted successfully"))
+					content = @Content(mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "User deleted successfully"))
 			),
 			@ApiResponse(
 					responseCode = "400",
 					description = "Bad request",
-					content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+					content = @Content(mediaType = "application/json",
+							schema = @Schema(implementation = ErrorResponse.class))
 			)
 	})
 	public ResponseEntity<?> deleteUser(@PathVariable Long id) {
 		userService.deleteUser(id);
-		userLogService.logUserAction("Delete","Delete user with id: " + id);
+		userLogService.logUserAction("Delete", "Delete user with id: " + id);
 		return ResponseEntity.ok("User deleted successfully");
 	}
 

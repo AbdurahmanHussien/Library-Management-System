@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 
@@ -47,5 +48,9 @@ public class UserDto implements Serializable {
 
 	@Schema(description = "User active status", example = "true")
 	private boolean isActive;
+
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@Schema(description = "User created date", example = "2023-08-01T10:00:00")
+	private LocalDateTime createdAt;
 
 }

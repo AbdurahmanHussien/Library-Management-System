@@ -21,7 +21,6 @@ public class MemberController {
 	private final UserLogService userLogService;
 
 
-
 	@GetMapping
 	@Operation(summary = "Get all members")
 	public ResponseEntity<List<MemberDto>> getAllMembers() {

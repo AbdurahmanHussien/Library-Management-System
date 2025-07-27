@@ -14,7 +14,6 @@ public class RoleInitializer implements CommandLineRunner {
     private final RoleRepository roleRepository;
 
 
-
     @Override
     public void run(String... args) {
         for (RoleNames roleNames : RoleNames.values()) {

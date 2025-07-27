@@ -27,4 +27,4 @@ public class CategoryDto implements Serializable {
 	@Schema(examples = "1", description = "Parent category ID")
 	private Long parentId;
 
-}
+  }

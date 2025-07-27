@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 
@@ -93,38 +94,38 @@ public class BookServiceImpl implements IBookService {
 		if (categories.isEmpty()) {
 			throw new ResourceNotFoundException("category.not.found");
 		}
-		
+
 		return BookDto.builder()
-			.id(book.getId())
-			.title(book.getTitle())
-			.isbn(book.getIsbn())
-			.edition(book.getEdition())
-			.publicationYear(book.getPublicationYear())
-			.summary(book.getSummary())
-			.coverImageUrl(book.getCoverImageUrl())
-			.languageId(book.getLanguage().getId())
-			.publisherId(book.getPublisher() != null ? book.getPublisher().getId() : null)
-			.authorIds(book.getAuthors().stream().map(Author::getId).toList())
-			.categoryIds(book.getCategories().stream().map(Category::getId).toList())
-			.build();
+				.id(book.getId())
+				.title(book.getTitle())
+				.isbn(book.getIsbn())
+				.edition(book.getEdition())
+				.publicationYear(book.getPublicationYear())
+				.summary(book.getSummary())
+				.coverImageUrl(book.getCoverImageUrl())
+				.languageId(book.getLanguage().getId())
+				.publisherId(book.getPublisher() != null ? book.getPublisher().getId() : null)
+				.authorIds(book.getAuthors().stream().map(Author::getId).toList())
+				.categoryIds(book.getCategories().stream().map(Category::getId).toList())
+				.build();
 	}
 
 	private Book convertToEntity(BookDto bookDto) {
 		return Book.builder()
-			.id(bookDto.getId())
-			.title(bookDto.getTitle())
-			.isbn(bookDto.getIsbn())
-			.edition(bookDto.getEdition())
-			.publicationYear(bookDto.getPublicationYear())
-			.summary(bookDto.getSummary())
-			.coverImageUrl(bookDto.getCoverImageUrl())
-			.language(languageRepository.findById(bookDto.getLanguageId())
-					.orElseThrow(() -> new ResourceNotFoundException("language.not.found")))
-			.publisher(publisherRepository.findById(bookDto.getPublisherId())
-					.orElseThrow(() -> new ResourceNotFoundException("publisher.not.found")))
-			.authors(authorRepository.findAllById(bookDto.getAuthorIds()))
-			.categories(categoryRepository.findAllById(bookDto.getCategoryIds()))
-			.build();
+				.id(bookDto.getId())
+				.title(bookDto.getTitle())
+				.isbn(bookDto.getIsbn())
+				.edition(bookDto.getEdition())
+				.publicationYear(bookDto.getPublicationYear())
+				.summary(bookDto.getSummary())
+				.coverImageUrl(bookDto.getCoverImageUrl())
+				.language(languageRepository.findById(bookDto.getLanguageId())
+						.orElseThrow(() -> new ResourceNotFoundException("language.not.found")))
+				.publisher(publisherRepository.findById(bookDto.getPublisherId())
+						.orElseThrow(() -> new ResourceNotFoundException("publisher.not.found")))
+				.authors(authorRepository.findAllById(bookDto.getAuthorIds()))
+				.categories(categoryRepository.findAllById(bookDto.getCategoryIds()))
+				.build();
 	}
 
 }
