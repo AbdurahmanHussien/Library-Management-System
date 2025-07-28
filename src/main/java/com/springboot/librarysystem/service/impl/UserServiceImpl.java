@@ -5,6 +5,7 @@ import com.springboot.librarysystem.dto.auth.UserDto;
 import com.springboot.librarysystem.entity.auth.Role;
 import com.springboot.librarysystem.entity.auth.User;
 import com.springboot.librarysystem.exception.BadRequestException;
+import com.springboot.librarysystem.exception.DuplicateFieldException;
 import com.springboot.librarysystem.exception.ResourceNotFoundException;
 import com.springboot.librarysystem.mapper.UserMapper;
 import com.springboot.librarysystem.repository.RoleRepository;
@@ -47,10 +48,10 @@ public class UserServiceImpl implements IUserService {
 			throw new BadRequestException("id.must.be.null");
 		}
 		if (userRepository.existsByEmail(userDto.getEmail())) {
-			throw new BadRequestException("user.exists");
+			throw new DuplicateFieldException("user.exists");
 		}
 		if (userRepository.existsByUsername(userDto.getUsername())) {
-			throw new BadRequestException("choose.another.username");
+			throw new DuplicateFieldException("choose.another.username");
 		}
 		return saveUser(userDto, roleIds);
 	}

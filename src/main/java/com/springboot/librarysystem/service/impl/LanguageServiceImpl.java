@@ -4,6 +4,7 @@ package com.springboot.librarysystem.service.impl;
 import com.springboot.librarysystem.dto.LanguageDto;
 import com.springboot.librarysystem.entity.Language;
 import com.springboot.librarysystem.exception.BadRequestException;
+import com.springboot.librarysystem.exception.DuplicateFieldException;
 import com.springboot.librarysystem.exception.ResourceNotFoundException;
 import com.springboot.librarysystem.mapper.LanguageMapper;
 import com.springboot.librarysystem.repository.LanguageRepository;
@@ -33,7 +34,7 @@ public class LanguageServiceImpl implements ILanguageService {
 		}
 
 		if (languageRepository.existsLanguageByName(dto.getName())) {
-			throw new BadRequestException("language.exists");
+			throw new DuplicateFieldException("language.exists");
 		}
 		Language language = LanguageMapper.INSTANCE.toEntity(dto);
 		Language saved = languageRepository.save(language);
